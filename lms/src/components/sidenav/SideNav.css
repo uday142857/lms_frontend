@@ -1,0 +1,38 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.sidebar {
+  /* width: 300px; */
+  height: 100vh;
+  
+}
+.side-header {
+  padding: 7px;
+}
+
+.brand {
+  margin: 6px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.brand-name {
+  margin: 0px;
+  font-size: 18px;
+  color: #111111;
+  
+}
+.logo {
+  border-radius: 8px;
+  padding: 4px;
+  color: white;
+  background: green;
+  border: none;
+  font-size: 18px;
+}
+.brand-tag {
+  color: green;
+  font-weight: 800;
+}

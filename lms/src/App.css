@@ -1,0 +1,22 @@
+
+
+.main {
+  display: flex;
+}
+.sidebar { 
+  width: 18%;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+  /* background-color: light-dark(#181414, #ececec); */
+  /* background-color: #181414; */
+  /* color: light-dark(#181414, #ececec); */
+  /* background-color: #3C0D4A; */
+}
+.main-section {
+  width: 82%;
+  height: 100vh;
+  margin-left: 18%;
+  
+}

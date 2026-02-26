@@ -1,0 +1,232 @@
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,700&display=swap");
+
+.mock-container {
+  padding: 30px 20px 30px 20px;
+  display: flex;
+  gap: 10px;
+}
+.mock-img {
+  height: 300px;
+  width: 500px;
+}
+.mock-img img {
+  width: 100%;
+  height: 100%;
+}
+.mock-name-box {
+  height: 300px;
+}
+.mock-name-box h2 {
+  font-size: 100px;
+  margin-top: -30px;
+}
+.gradient-text {
+  font-family: "Playfair Display", serif;
+  font-style: italic;
+  text-align: center;
+  font-size: 40px;
+  background: linear-gradient(90deg, #14b8a6, #34d399, #fbbf24);
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-top: -30px;
+}
+.para {
+  width: 600px;
+  font-size: 13px;
+  font-style: italic;
+}
+.stats-row {
+  display: flex;
+  gap: 60px;
+  margin-top: 50px;
+}
+
+.stats-row h3 {
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.stats-row p {
+  color: #6b7280;
+}
+
+.explore-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+.explore-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 32px;
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+  background: linear-gradient(90deg, #14b8a6, #34d399);
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  animation: buttonFloat 2s ease-in-out infinite;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.explore-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(20, 184, 166, 0.4);
+}
+.arrow-icon {
+  font-size: 20px;
+  display: inline-block;
+  animation: arrowBounce 1s ease-in-out infinite;
+}
+
+@keyframes buttonFloat {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+@keyframes arrowBounce {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(6px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+.tests {
+  padding: 40px 20px 20px 20px;
+}
+
+.mock-box {
+  border: 1.5px solid #d1fae5;
+  background: #ffffff;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  width: 80%;
+  gap: 30px;
+  position: relative;
+  overflow: hidden;
+  margin: 15px;
+}
+.mock-icon {
+  border-radius: 10px;
+  padding: 12px;
+  font-size: 50px;
+  margin: 14px 4px 14px 20px;
+  background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+  color: #059669;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* .mock-box::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 4px;
+  background: linear-gradient(180deg, #14b8a6, #10b981, #fbbf24);
+  border-radius: 12px 0 0 12px;
+} */
+
+.mock-box:hover {
+  box-shadow: 0 12px 32px rgba(16, 185, 129, 0.15);
+  border-color: #10b981;
+}
+
+.mock-box:hover .mock-icon {
+  background: linear-gradient(135deg, #14b8a6, #10b981);
+  color: #ffffff;
+}
+
+.mock-title h1 {
+  font-size: 17px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 5px;
+}
+
+.mock-title p {
+  font-size: 13px;
+  color: #6b7280;
+  margin: 0;
+}
+
+.strat-test {
+  margin-left: auto;
+  padding-right: 20px;
+  flex-shrink: 0;
+}
+.strat-test button {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(90deg, #14b8a6, #10b981);
+  color: #ffffff;
+  transition:
+    background 0.3s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.strat-test button:hover {
+  background: linear-gradient(90deg, #10b981, #14b8a6);
+  transform: scale(1.04);
+  box-shadow: 0 6px 18px rgba(16, 185, 129, 0.3);
+}
+
+.strat-test button:active {
+  transform: scale(0.97);
+}
+
+.strat-test button i.bi-arrow-right {
+  transition: transform 0.25s ease;
+}
+
+.strat-test button:hover i.bi-arrow-right {
+  transform: translateX(5px);
+}
+
+.strat-test button.loading {
+  opacity: 0.72;
+  cursor: not-allowed;
+}
+.spin {
+  /* display: inline-block; */
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
