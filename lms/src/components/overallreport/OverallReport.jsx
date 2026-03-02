@@ -2,11 +2,11 @@ import React from "react";
 import "./OverallReport.css";
 
 const user = {
-  name: "Uday Kumar",
-  email: "uday.kumar@gmail.com",
+  name: "Uday Kiran",
+  email: "uday.kiran@gmail.com",
   gender: "Male",
   initials: "UK",
-  university: "Vignan University",
+  university: "Raghu Institute Of Technology",
   academic: {
     cgpa: "N/A",
     overallPercent: "N/A",
