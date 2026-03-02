@@ -1,43 +1,33 @@
+/* ── BACKDROP ──────────────────────────────────────────── */
 .search-backdrop {
-  position: fixed;
-  inset: 0;
-  top: 62px;
-  background: rgba(0, 0, 0, 0.55);
+  position: fixed; inset: 0; top: 62px;
+  background: rgba(0,0,0,0.55);
   backdrop-filter: blur(2px);
-  z-index: 98;
-  opacity: 0;
-  pointer-events: none;
+  z-index: 98; opacity: 0; pointer-events: none;
   transition: opacity 0.3s ease;
 }
 .search-backdrop--visible { opacity: 1; pointer-events: auto; }
 
 /* ── HEADER SHELL ──────────────────────────────────────── */
 .site-header {
-  top: 0;
-  z-index: 99;
+  top: 0; z-index: 99;
   height: 60px;
   padding: 0 clamp(14px, 2.5vw, 32px);
   border-bottom: 1px solid #e9f5ee;
   box-shadow: 0 1px 0 #e9f5ee, inset 0 1px 0 rgba(16,185,129,0.06);
-  display: flex;
-  align-items: center;
+  display: flex; align-items: center;
   position: relative;
   background: #ffffff;
-  /* overflow visible so dropdown can show */
+  /* overflow visible — lets dropdown show */
   overflow: visible;
 }
 
 /* ── NORMAL ROW ────────────────────────────────────────── */
 .header-normal {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  opacity: 1;
-  transform: translateY(0);
+  display: flex; align-items: center; justify-content: space-between;
+  width: 100%; opacity: 1; transform: translateY(0);
   transition: opacity 0.2s ease, transform 0.25s ease;
-  position: relative;
-  z-index: 2;
+  position: relative; z-index: 2;
 }
 .header-normal--hidden { opacity: 0; transform: translateY(-8px); pointer-events: none; }
 
@@ -78,8 +68,12 @@
 
 /* ── ACTIONS ───────────────────────────────────────────── */
 .header-actions { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
-.header-divider { width: 1px; height: 20px; background: #e5e7eb; border-radius: 1px; margin: 0 6px; flex-shrink: 0; }
+.header-divider {
+  width: 1px; height: 20px; background: #e5e7eb;
+  border-radius: 1px; margin: 0 6px; flex-shrink: 0;
+}
 
+/* Search trigger */
 .search-trigger-btn {
   display: flex; align-items: center; justify-content: center;
   width: 38px; height: 38px; border-radius: 50%;
@@ -90,7 +84,7 @@
 }
 .search-trigger-btn:hover { background: #059669; transform: scale(1.06); }
 
-/* ── ICON BTN ──────────────────────────────────────────── */
+/* Icon buttons */
 .icon-btn {
   display: flex; align-items: center; justify-content: center;
   width: 38px; height: 38px; border-radius: 10px;
@@ -100,26 +94,30 @@
 }
 .icon-btn:hover, .icon-btn.active { background: rgba(34,197,94,0.08); color: #16a34a; }
 
-/* ── TOOLTIP — rendered via React into body via fixed position ── */
-.icon-btn-tooltip {
-  position: fixed;          /* escapes all overflow constraints */
+/* ── PORTAL TOOLTIP ────────────────────────────────────── */
+/* Rendered directly into document.body — zero clipping issues */
+.icon-tooltip-portal {
+  position: fixed;
   transform: translateX(-50%);
   background: #111827;
   color: #ffffff;
-  font-size: 11px;
-  font-weight: 500;
+  font-size: 11.5px;
+  font-weight: 600;
   white-space: nowrap;
-  padding: 4px 9px;
-  border-radius: 6px;
+  padding: 5px 11px;
+  border-radius: 7px;
   pointer-events: none;
-  z-index: 99999;           /* always on top */
+  z-index: 999999;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  /* arrow */
+  margin-top: 0;
 }
-.icon-btn-tooltip::before {
+.icon-tooltip-portal::before {
   content: "";
   position: absolute;
-  top: -4px; left: 50%;
+  top: -5px; left: 50%;
   transform: translateX(-50%);
-  border: 4px solid transparent;
+  border: 5px solid transparent;
   border-bottom-color: #111827;
   border-top: none;
 }
@@ -147,16 +145,11 @@
 
 /* ── PROFILE DROPDOWN ──────────────────────────────────── */
 .profile-dropdown {
-  position: absolute;
-  top: calc(100% + 10px);
-  right: 0;
-  width: 220px;
-  background: #ffffff;
-  border: 1px solid #e5e7eb;
-  border-radius: 14px;
-  box-shadow: 0 12px 32px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.06);
-  z-index: 9999;
-  overflow: hidden;
+  position: absolute; top: calc(100% + 10px); right: 0;
+  width: 224px; background: #ffffff;
+  border: 1px solid #e5e7eb; border-radius: 14px;
+  box-shadow: 0 12px 36px rgba(0,0,0,0.13), 0 2px 8px rgba(0,0,0,0.06);
+  z-index: 9999; overflow: hidden;
   animation: dropIn 0.18s ease;
 }
 @keyframes dropIn {
@@ -167,7 +160,7 @@
   display: flex; align-items: center; gap: 10px;
   padding: 14px 16px; background: #f0fdf4;
 }
-.profile-dropdown-avatar {
+.pd-avatar-circle {
   width: 38px; height: 38px; border-radius: 50%;
   background: #d1fae5; border: 2px solid #10b981;
   display: flex; align-items: center; justify-content: center;
@@ -175,28 +168,27 @@
 }
 .pd-name  { font-size: 13.5px; font-weight: 700; color: #111827; margin: 0 0 2px 0; }
 .pd-email { font-size: 11.5px; color: #6b7280; margin: 0; }
-.profile-dropdown-divider { height: 1px; background: #e5e7eb; }
+.pd-divider { height: 1px; background: #e5e7eb; }
 .pd-item {
   display: flex; align-items: center; gap: 10px;
   width: 100%; padding: 11px 16px;
   border: none; background: transparent;
   font-size: 13.5px; font-weight: 500; color: #374151;
   cursor: pointer; text-decoration: none;
-  transition: background 0.15s ease, color 0.15s ease;
+  transition: background 0.15s, color 0.15s;
   text-align: left; box-sizing: border-box;
 }
 .pd-item i { font-size: 16px; color: #6b7280; transition: color 0.15s; }
 .pd-item:hover { background: #f0fdf4; color: #065f46; }
 .pd-item:hover i { color: #10b981; }
-.pd-item-logout { color: #dc2626; }
-.pd-item-logout i { color: #ef4444; }
-.pd-item-logout:hover { background: #fef2f2; color: #b91c1c; }
-.pd-item-logout:hover i { color: #dc2626; }
+.pd-logout { color: #dc2626; }
+.pd-logout i { color: #ef4444; }
+.pd-logout:hover { background: #fef2f2; color: #b91c1c; }
+.pd-logout:hover i { color: #dc2626; }
 
 /* ── SEARCH BAR ────────────────────────────────────────── */
 .header-search-bar {
-  position: absolute;
-  top: 0; left: 0; right: 0; height: 100%;
+  position: absolute; top: 0; left: 0; right: 0; height: 100%;
   display: flex; align-items: center; gap: 12px;
   padding: 0 clamp(14px, 2.5vw, 32px);
   background: #ffffff; z-index: 3;
@@ -215,8 +207,8 @@
 .search-bar-icon { font-size: 16px; color: #9ca3af; flex-shrink: 0; }
 .search-bar-input {
   flex: 1; height: 100%; border: none; outline: none; background: transparent;
-  font-size: clamp(14px, 1.5vw, 16px); font-family: inherit; color: #111827;
-  caret-color: #16a34a; pointer-events: auto; cursor: text;
+  font-size: clamp(14px, 1.5vw, 16px); font-family: inherit;
+  color: #111827; caret-color: #16a34a; pointer-events: auto; cursor: text;
 }
 .search-bar-input::placeholder { color: #9ca3af; }
 .search-close-btn {
@@ -224,11 +216,11 @@
   width: 36px; height: 36px; border-radius: 50%;
   border: none; background: #f3f4f6; color: #374151;
   font-size: 20px; cursor: pointer; flex-shrink: 0;
-  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  transition: background 0.2s, color 0.2s, transform 0.2s;
 }
 .search-close-btn:hover { background: #fee2e2; color: #dc2626; transform: scale(1.08) rotate(90deg); }
 
-/* ── MEDIA QUERIES ─────────────────────────────────────── */
+/* ── RESPONSIVE ────────────────────────────────────────── */
 @media (max-width: 900px) {
   .hamburger-btn { display: flex; }
   .header-brand  { display: flex; }
@@ -269,4 +261,41 @@
   .avatar-btn { width: 44px; height: 44px; }
   .search-bar-input { font-size: 17px; }
   .header-divider { margin: 0 10px; }
+}
+
+
+/* ══════════════════════════════════════════════════════════
+   TOOLTIP — fixed position, rendered above everything
+   Uses inline top/left set by getBoundingClientRect()
+══════════════════════════════════════════════════════════ */
+.hdr-tooltip {
+  position: fixed;           /* stays exactly where calculated */
+  transform: translateX(-50%);
+  background: #111827;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  padding: 5px 12px;
+  border-radius: 7px;
+  pointer-events: none;      /* never blocks clicks */
+  z-index: 999999;           /* above everything */
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  animation: tipFade 0.15s ease;
+}
+
+.hdr-tooltip::before {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-bottom-color: #111827;
+  border-top: none;
+}
+
+@keyframes tipFade {
+  from { opacity: 0; transform: translateX(-50%) translateY(4px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
 }

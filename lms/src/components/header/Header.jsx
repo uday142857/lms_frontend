@@ -2,81 +2,69 @@ import React, { useState, useRef, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import "./Header.css";
 
-/* ── Tooltip component that calculates its own position ── */
-function IconBtn({ to, icon, label }) {
-  const [hover, setHover] = useState(false);
-  const btnRef = useRef(null);
-  const [tipStyle, setTipStyle] = useState({});
-
-  const handleMouseEnter = () => {
-    if (btnRef.current) {
-      const rect = btnRef.current.getBoundingClientRect();
-      setTipStyle({
-        top: rect.bottom + 8,
-        left: rect.left + rect.width / 2,
-      });
-    }
-    setHover(true);
-  };
-
-  return (
-    <>
-      <NavLink
-        to={to}
-        className="icon-btn"
-        aria-label={label}
-        ref={btnRef}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={() => setHover(false)}
-      >
-        <i className={icon} />
-      </NavLink>
-      {hover && (
-        <div
-          className="icon-btn-tooltip"
-          style={{ top: tipStyle.top, left: tipStyle.left }}
-        >
-          {label}
-        </div>
-      )}
-    </>
-  );
-}
+/* ─── Global tooltip state rendered at root level ─────────
+   We track { text, x, y } whenever an icon is hovered.
+   The tooltip div lives OUTSIDE the header so no clipping.
+─────────────────────────────────────────────────────────── */
 
 function Header({ sidebarOpen, onToggleSidebar }) {
   const [searchOpen, setSearchOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
+  const [tooltip, setTooltip] = useState(null); // { text, x, y }
+
   const inputRef = useRef(null);
   const profileRef = useRef(null);
   const navigate = useNavigate();
 
+  /* focus search input when opened */
   useEffect(() => {
     if (searchOpen && inputRef.current)
       setTimeout(() => inputRef.current.focus(), 50);
   }, [searchOpen]);
 
+  /* Escape closes everything */
   useEffect(() => {
-    const handleKey = (e) => {
+    const fn = (e) => {
       if (e.key === "Escape") {
         setSearchOpen(false);
         setProfileOpen(false);
+        setTooltip(null);
       }
     };
-    window.addEventListener("keydown", handleKey);
-    return () => window.removeEventListener("keydown", handleKey);
+    window.addEventListener("keydown", fn);
+    return () => window.removeEventListener("keydown", fn);
   }, []);
 
+  /* click outside → close profile */
   useEffect(() => {
-    const handleClick = (e) => {
+    const fn = (e) => {
       if (profileRef.current && !profileRef.current.contains(e.target))
         setProfileOpen(false);
     };
-    if (profileOpen) document.addEventListener("mousedown", handleClick);
-    return () => document.removeEventListener("mousedown", handleClick);
+    if (profileOpen) document.addEventListener("mousedown", fn);
+    return () => document.removeEventListener("mousedown", fn);
   }, [profileOpen]);
+
+  /* helpers */
+  const showTip = (e, text) => {
+    const r = e.currentTarget.getBoundingClientRect();
+    setTooltip({ text, x: r.left + r.width / 2, y: r.bottom + 10 });
+  };
+  const hideTip = () => setTooltip(null);
 
   return (
     <>
+      {/* ── PORTAL TOOLTIP rendered outside header ── */}
+      {tooltip && (
+        <div
+          className="hdr-tooltip"
+          style={{ top: tooltip.y, left: tooltip.x }}
+        >
+          {tooltip.text}
+        </div>
+      )}
+
+      {/* ── SEARCH BACKDROP ── */}
       <div
         className={`search-backdrop ${searchOpen ? "search-backdrop--visible" : ""}`}
         onClick={() => setSearchOpen(false)}
@@ -87,6 +75,7 @@ function Header({ sidebarOpen, onToggleSidebar }) {
         <div
           className={`header-normal ${searchOpen ? "header-normal--hidden" : ""}`}
         >
+          {/* LEFT: hamburger + brand */}
           <div className="header-left">
             <button
               className="hamburger-btn"
@@ -109,7 +98,9 @@ function Header({ sidebarOpen, onToggleSidebar }) {
             </div>
           </div>
 
+          {/* RIGHT: actions */}
           <div className="header-actions">
+            {/* Search button */}
             <button
               className="search-trigger-btn"
               onClick={() => setSearchOpen(true)}
@@ -120,12 +111,27 @@ function Header({ sidebarOpen, onToggleSidebar }) {
 
             <span className="header-divider" />
 
-            <IconBtn to="/ide" icon="bi bi-code-slash" label="IDE" />
-            <IconBtn
+            {/* IDE */}
+            <NavLink
+              to="/ide"
+              className="icon-btn"
+              aria-label="IDE"
+              onMouseEnter={(e) => showTip(e, "IDE")}
+              onMouseLeave={hideTip}
+            >
+              <i className="bi bi-code-slash" />
+            </NavLink>
+
+            {/* Playground */}
+            <NavLink
               to="/playground"
-              icon="bi bi-braces-asterisk"
-              label="Playground"
-            />
+              className="icon-btn"
+              aria-label="Playground"
+              onMouseEnter={(e) => showTip(e, "Playground")}
+              onMouseLeave={hideTip}
+            >
+              <i className="bi bi-braces-asterisk" />
+            </NavLink>
 
             <span className="header-divider" />
 
@@ -143,13 +149,13 @@ function Header({ sidebarOpen, onToggleSidebar }) {
               {profileOpen && (
                 <div className="profile-dropdown">
                   <div className="profile-dropdown-user">
-                    <div className="profile-dropdown-avatar">UK</div>
+                    <div className="pd-avatar-circle">UK</div>
                     <div>
                       <p className="pd-name">Uday Kumar</p>
                       <p className="pd-email">uday@example.com</p>
                     </div>
                   </div>
-                  <div className="profile-dropdown-divider" />
+                  <div className="pd-divider" />
                   <NavLink
                     to="/profile"
                     className="pd-item"
@@ -158,7 +164,7 @@ function Header({ sidebarOpen, onToggleSidebar }) {
                     <i className="bi bi-person-circle" /> View Profile
                   </NavLink>
                   <button
-                    className="pd-item pd-item-logout"
+                    className="pd-item pd-logout"
                     onClick={() => {
                       setProfileOpen(false);
                       navigate("/login");
@@ -172,7 +178,7 @@ function Header({ sidebarOpen, onToggleSidebar }) {
           </div>
         </div>
 
-        {/* ── SEARCH BAR ── */}
+        {/* ── SEARCH BAR (slides in) ── */}
         <div
           className={`header-search-bar ${searchOpen ? "header-search-bar--visible" : ""}`}
         >
