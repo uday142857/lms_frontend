@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,700&display=swap");
+/* @import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,700&display=swap");
 
 .mock-container {
   padding: 30px 20px 30px 20px;
@@ -138,17 +138,6 @@
   flex-shrink: 0;
 }
 
-/* .mock-box::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0;
-  height: 100%;
-  width: 4px;
-  background: linear-gradient(180deg, #14b8a6, #10b981, #fbbf24);
-  border-radius: 12px 0 0 12px;
-} */
-
 .mock-box:hover {
   box-shadow: 0 12px 32px rgba(16, 185, 129, 0.15);
   border-color: #10b981;
@@ -218,7 +207,6 @@
   cursor: not-allowed;
 }
 .spin {
-  /* display: inline-block; */
   animation: spin 0.7s linear infinite;
 }
 
@@ -228,5 +216,535 @@
   }
   to {
     transform: rotate(360deg);
+  }
+} */
+
+/* ═══════════════════════════════════════════════════════════
+   ORIGINAL STYLES — untouched exactly as provided
+═══════════════════════════════════════════════════════════ */
+
+/* ═══════════════════════════════════════════════════════════
+   ORIGINAL STYLES — untouched exactly as provided
+═══════════════════════════════════════════════════════════ */
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,700&display=swap");
+
+/* ── PAGE WRAPPER ──────────────────────────────────────── */
+.mock-page-wrapper {
+  background: #ffffff;
+  min-height: 100vh;
+}
+
+/* ── HERO SECTION ──────────────────────────────────────── */
+.mock-container {
+  padding: 40px 40px 20px 40px;
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  justify-content: space-between;
+}
+
+/* Left text side */
+.mock-name-box {
+  flex: 1;
+  min-width: 0;
+}
+
+.mock-name-box h2 {
+  font-size: 72px;
+  font-weight: 800;
+  color: #111827;
+  margin: 0 0 0 0;
+  line-height: 1.05;
+}
+
+.gradient-text {
+  font-family: "Playfair Display", serif;
+  font-style: italic;
+  font-size: 44px;
+  background: linear-gradient(90deg, #2dd4bf, #14b8a6, #0d9488);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 6px 0 0 0;
+  line-height: 1.2;
+}
+
+.para {
+  font-size: 13.5px;
+  font-style: italic;
+  color: #4b5563;
+  line-height: 1.7;
+  margin: 20px 0 0 0;
+  max-width: 560px;
+}
+
+.stats-row {
+  display: flex;
+  gap: 48px;
+  margin-top: 40px;
+}
+
+.stats-row h3 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 4px 0;
+}
+
+.stats-row p {
+  color: #6b7280;
+  font-size: 13px;
+  margin: 0;
+}
+
+/* Right image side */
+.mock-img {
+  flex-shrink: 0;
+  width: 420px;
+  height: 320px;
+}
+
+.mock-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* ── EXPLORE BUTTON ────────────────────────────────────── */
+.explore-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 36px;
+  padding: 0 40px;
+}
+
+.explore-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 40px;
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+  background: linear-gradient(135deg, #134e4a, #0d9488);
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(20, 184, 166, 0.35);
+  animation: buttonFloat 2s ease-in-out infinite;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.explore-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 28px rgba(20, 184, 166, 0.5);
+}
+
+.arrow-icon {
+  font-size: 20px;
+  display: inline-block;
+  animation: arrowBounce 1s ease-in-out infinite;
+}
+
+@keyframes buttonFloat {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+@keyframes arrowBounce {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(6px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+/* ── TEST LIST SECTION ─────────────────────────────────── */
+.tests {
+  padding: 36px 40px 32px 40px;
+}
+
+/* Each test row — full width of the content area */
+.mock-box {
+  border: 1.5px solid rgba(20, 184, 166, 0.2);
+  background: #ffffff;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  width: 100%; /* full width — no more 80% cutoff */
+  gap: 24px;
+  position: relative;
+  overflow: hidden;
+  margin: 0 0 16px 0; /* consistent bottom gap, no side margin */
+  box-sizing: border-box;
+  box-shadow:
+    inset 4px 0 0 rgba(20, 184, 166, 0.25),
+    0 2px 12px rgba(0, 0, 0, 0.04);
+  transition:
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.mock-box:hover {
+  box-shadow:
+    0 12px 32px rgba(20, 184, 166, 0.15),
+    inset 4px 0 0 #14b8a6;
+  border-color: rgba(20, 184, 166, 0.45);
+}
+
+.mock-icon {
+  border-radius: 10px;
+  padding: 14px;
+  font-size: 46px;
+  margin: 16px 4px 16px 20px;
+  background: linear-gradient(135deg, #134e4a, #0d9488);
+  color: #2dd4bf;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 4px 14px rgba(20, 184, 166, 0.3);
+  transition:
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.mock-box:hover .mock-icon {
+  background: linear-gradient(135deg, #0d9488, #14b8a6);
+  color: #ffffff;
+  box-shadow: 0 6px 18px rgba(20, 184, 166, 0.45);
+}
+
+.mock-title {
+  flex: 1;
+  min-width: 0;
+}
+
+.mock-title h1 {
+  font-size: 17px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 5px;
+}
+
+.mock-title p {
+  font-size: 13px;
+  color: #6b7280;
+  margin: 0;
+}
+
+.strat-test {
+  margin-left: auto;
+  padding-right: 24px;
+  flex-shrink: 0;
+}
+
+.strat-test button {
+  padding: 12px 28px;
+  border: none;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #134e4a, #0d9488);
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(20, 184, 166, 0.3);
+  transition:
+    background 0.3s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+  white-space: nowrap;
+}
+
+.strat-test button:hover {
+  background: linear-gradient(135deg, #0d9488, #14b8a6);
+  transform: scale(1.04);
+  box-shadow: 0 6px 20px rgba(20, 184, 166, 0.45);
+}
+
+.strat-test button:active {
+  transform: scale(0.97);
+}
+
+.strat-test button i.bi-arrow-right {
+  transition: transform 0.25s ease;
+}
+
+.strat-test button:hover i.bi-arrow-right {
+  transform: translateX(5px);
+}
+
+.strat-test button.loading {
+  opacity: 0.72;
+  cursor: not-allowed;
+}
+
+.spin {
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ══════════════════════════════════════════════════════════
+   MEDIA QUERIES
+══════════════════════════════════════════════════════════ */
+
+@media (max-width: 1280px) {
+  .mock-name-box h2 {
+    font-size: 58px;
+  }
+  .gradient-text {
+    font-size: 36px;
+  }
+  .mock-img {
+    width: 340px;
+    height: 260px;
+  }
+  .stats-row {
+    gap: 36px;
+    margin-top: 32px;
+  }
+  .stats-row h3 {
+    font-size: 24px;
+  }
+  .mock-container {
+    padding: 32px 28px 16px 28px;
+  }
+  .tests {
+    padding: 28px 28px 24px 28px;
+  }
+  .explore-wrapper {
+    padding: 0 28px;
+  }
+}
+
+@media (max-width: 900px) {
+  .mock-container {
+    flex-direction: column-reverse;
+    padding: 24px 20px 16px 20px;
+    gap: 20px;
+  }
+  .mock-img {
+    width: 100%;
+    height: 220px;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .mock-img img {
+    object-fit: cover;
+    border-radius: 12px;
+  }
+  .mock-name-box {
+    width: 100%;
+  }
+  .mock-name-box h2 {
+    font-size: 50px;
+  }
+  .gradient-text {
+    font-size: 30px;
+  }
+  .para {
+    max-width: 100%;
+    font-size: 13px;
+  }
+  .stats-row {
+    gap: 28px;
+    margin-top: 24px;
+    flex-wrap: wrap;
+  }
+  .stats-row h3 {
+    font-size: 22px;
+  }
+  .tests {
+    padding: 24px 20px 20px 20px;
+  }
+  .explore-wrapper {
+    padding: 0 20px;
+  }
+  .mock-box {
+    gap: 16px;
+  }
+}
+
+@media (max-width: 640px) {
+  .mock-container {
+    padding: 16px 14px 12px 14px;
+  }
+  .mock-img {
+    height: 180px;
+  }
+  .mock-name-box h2 {
+    font-size: 40px;
+  }
+  .gradient-text {
+    font-size: 24px;
+  }
+  .para {
+    font-size: 12px;
+  }
+  .stats-row {
+    gap: 20px;
+    margin-top: 18px;
+  }
+  .stats-row h3 {
+    font-size: 18px;
+  }
+  .explore-btn {
+    padding: 12px 28px;
+    font-size: 14px;
+  }
+  .tests {
+    padding: 18px 14px 14px 14px;
+  }
+  .mock-box {
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  .mock-icon {
+    font-size: 34px;
+    padding: 10px;
+    margin: 12px 0 12px 14px;
+  }
+  .mock-title h1 {
+    font-size: 15px;
+  }
+  .mock-title p {
+    font-size: 12px;
+  }
+  .strat-test {
+    padding-right: 14px;
+  }
+  .strat-test button {
+    padding: 10px 16px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .mock-container {
+    padding: 12px 10px;
+  }
+  .mock-img {
+    height: 150px;
+  }
+  .mock-name-box h2 {
+    font-size: 32px;
+  }
+  .gradient-text {
+    font-size: 20px;
+  }
+  .para {
+    font-size: 11px;
+  }
+  .stats-row {
+    gap: 14px;
+    margin-top: 14px;
+  }
+  .stats-row h3 {
+    font-size: 16px;
+  }
+  .tests {
+    padding: 14px 10px 10px 10px;
+  }
+  .mock-box {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 14px;
+    margin-bottom: 10px;
+  }
+  .mock-icon {
+    font-size: 28px;
+    padding: 10px;
+    margin: 0;
+  }
+  .mock-title h1 {
+    font-size: 14px;
+  }
+  .mock-title p {
+    font-size: 11px;
+  }
+  .strat-test {
+    margin-left: 0;
+    padding-right: 0;
+    width: 100%;
+  }
+  .strat-test button {
+    width: 100%;
+    justify-content: center;
+    padding: 10px 14px;
+    font-size: 13px;
+  }
+}
+
+@media (min-width: 1600px) {
+  .mock-container {
+    padding: 48px 48px 24px 48px;
+    gap: 56px;
+  }
+  .mock-name-box h2 {
+    font-size: 88px;
+  }
+  .gradient-text {
+    font-size: 54px;
+  }
+  .mock-img {
+    width: 520px;
+    height: 400px;
+  }
+  .para {
+    font-size: 15px;
+    max-width: 640px;
+  }
+  .stats-row {
+    gap: 64px;
+    margin-top: 48px;
+  }
+  .stats-row h3 {
+    font-size: 32px;
+  }
+  .tests {
+    padding: 44px 48px 36px 48px;
+  }
+  .explore-wrapper {
+    padding: 0 48px;
+  }
+  .mock-icon {
+    font-size: 56px;
+    padding: 18px;
+    margin: 18px 6px 18px 24px;
+  }
+  .mock-title h1 {
+    font-size: 20px;
+  }
+  .mock-title p {
+    font-size: 14px;
+  }
+  .strat-test button {
+    padding: 14px 32px;
+    font-size: 15px;
   }
 }

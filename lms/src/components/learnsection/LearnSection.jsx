@@ -1,14 +1,23 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+
+
 import "./LearnSection.css";
 
 function LearnSection() {
+  const navigate = useNavigate();
   return (
     <div className="learn-main">
       <div className="mid2-main">
         <div className="popular-videos">
           <div className="pop-head">
             <h3>Most Popular Courses</h3>
-            <span>View</span>
+            <span
+              onClick={() => navigate("/popular-videos")}
+              style={{ cursor: "pointer" }}
+            >
+              View
+            </span>
           </div>
           <div className="video-container">
             <div className="video-box">
@@ -128,7 +137,7 @@ function LearnSection() {
               <div className="video-description">
                 <div>
                   <p>Artificial Intelligence</p>
-                  <h3>Generative AI & Prompt Engineering</h3>
+                  <h3>Generative AI &amp; Prompt Engineering</h3>
                 </div>
                 <div className="users-quantity">
                   <span>Users</span>
@@ -142,7 +151,7 @@ function LearnSection() {
                   <img
                     className="pop-thumb-img"
                     src="https://d1csarkz8obe9u.cloudfront.net/posterpreviews/artificial-intelligence-ai-thumbnail-youtub-design-template-eb5c61bbccfcd1df53ab8533054f6ddb_screen.jpg?ts=1686266063"
-                    alt="MERN"
+                    alt="Intro AI"
                   />
                 </div>
               </div>
@@ -160,6 +169,7 @@ function LearnSection() {
           </div>
         </div>
       </div>
+
       <div className="learnbadge-container">
         <div className="learning-time">
           <div className="card-header">

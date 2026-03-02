@@ -1,15 +1,22 @@
+/* 
+
 body {
   margin: 0;
   padding: 0;
 }
 
-.sidebar {
-  /* width: 300px; */
+.sidenav {
   height: 100vh;
-  
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
+
 .side-header {
-  padding: 7px;
+  padding: 7px 10px 7px 7px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .brand {
@@ -18,21 +25,266 @@ body {
   align-items: center;
   gap: 10px;
 }
+
 .brand-name {
-  margin: 0px;
+  margin: 0;
   font-size: 18px;
   color: #111111;
-  
 }
+
 .logo {
   border-radius: 8px;
-  padding: 4px;
+  padding: 4px 8px;
   color: white;
   background: green;
   border: none;
   font-size: 18px;
+  margin: 0;
 }
+
 .brand-tag {
   color: green;
   font-weight: 800;
 }
+
+.sidenav-close-btn {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  cursor: pointer;
+  font-size: 18px;
+  color: #374151;
+  transition: background 0.2s ease, color 0.2s ease;
+  flex-shrink: 0;
+}
+.sidenav-close-btn:hover {
+  background: rgba(239, 68, 68, 0.1);
+  color: #dc2626;
+}
+
+@media (max-width: 900px) {
+  .sidenav-close-btn {
+    display: flex;
+  }
+} */
+
+
+
+
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+/* ── Sidebar shell ──────────────────────────────────────── */
+.sidenav {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  /* Medium sage green — clearly different from white main,
+     light enough to feel clean, stays on-brand */
+  background: #dcfce7;
+  border-right: 2px solid #86efac;
+  position: relative;
+}
+
+/* ── Brand / header ─────────────────────────────────────── */
+.side-header {
+  padding: 14px 16px 13px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #bbf7d0;
+  flex-shrink: 0;
+  background: transparent;
+}
+
+.brand {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Logo box */
+.logo {
+  border-radius: 9px;
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  background: linear-gradient(135deg, #16a34a 0%, #059669 100%);
+  border: none;
+  font-size: 13px;
+  font-weight: 800;
+  margin: 0;
+  letter-spacing: 0.5px;
+  box-shadow: 0 3px 10px rgba(22, 163, 74, 0.28);
+  flex-shrink: 0;
+  padding: 0;
+}
+
+/* Brand name */
+.brand-name {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #111827;
+  letter-spacing: -0.2px;
+  white-space: nowrap;
+}
+
+.brand-tag {
+  color: #16a34a;
+  font-weight: 900;
+}
+
+/* ── Close button (mobile only) ─────────────────────────── */
+.sidenav-close-btn {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  cursor: pointer;
+  font-size: 16px;
+  color: #6b7280;
+  transition: background 0.2s ease, color 0.2s ease;
+  flex-shrink: 0;
+}
+
+.sidenav-close-btn:hover {
+  background: rgba(239, 68, 68, 0.08);
+  color: #dc2626;
+}
+
+/* ── Responsive ─────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .sidenav-close-btn { display: flex; }
+  .sidenav { background: #dcfce7; }
+}
+/* 
+body {
+  margin: 0;
+  padding: 0;
+}
+
+
+.sidenav {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: linear-gradient(180deg, #1f2937 0%, #111827 100%);
+  border-right: 1px solid rgba(20, 184, 166, 0.12);
+  position: relative;
+}
+
+
+.sidenav::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 1px;
+  height: 100%;
+  background: linear-gradient(180deg,
+    transparent 0%,
+    rgba(20, 184, 166, 0.5) 30%,
+    rgba(45, 212, 191, 0.7) 60%,
+    transparent 100%
+  );
+  pointer-events: none;
+}
+
+
+.side-header {
+  padding: 18px 16px 16px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  flex-shrink: 0;
+}
+
+.brand {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+
+
+.logo {
+  border-radius: 10px;
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%);
+  border: none;
+  font-size: 14px;
+  font-weight: 800;
+  margin: 0;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 14px rgba(20, 184, 166, 0.45);
+  flex-shrink: 0;
+  padding: 0;
+}
+
+.brand-name {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #f1f5f9;
+  letter-spacing: -0.2px;
+  white-space: nowrap;
+}
+
+.brand-tag {
+  color: #2dd4bf;
+  font-weight: 900;
+}
+
+
+.sidenav-close-btn {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border: none;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  cursor: pointer;
+  font-size: 16px;
+  color: #9ca3af;
+  transition: background 0.2s ease, color 0.2s ease;
+  flex-shrink: 0;
+}
+
+.sidenav-close-btn:hover {
+  background: rgba(239, 68, 68, 0.15);
+  color: #f87171;
+}
+
+
+@media (max-width: 900px) {
+  .sidenav-close-btn {
+    display: flex;
+  }
+} */

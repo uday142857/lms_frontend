@@ -1,4 +1,4 @@
-.mid-wrapper {
+/* .mid-wrapper {
   padding: 45px 45px 10px 15px;
 }
 
@@ -90,4 +90,305 @@
 .purple {
   background: linear-gradient(135deg, #115e59, #134e4a);
   box-shadow: 0 10px 24px rgba(19, 78, 74, 0.35);
+} */
+
+
+.mid-wrapper {
+  padding: 28px 32px 20px 24px;
+  background: #ffffff;
+}
+.mid-top {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.mid-greet h2 {
+  font-size: 26px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 5px 0;
+  line-height: 1.2;
+}
+
+.mid-greet p {
+  font-size: 14px;
+  color: #6b7280;
+  margin: 0;
+}
+.mid-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.btn-browse {
+  padding: 10px 22px;
+  border: 1.5px solid #d1fae5;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #15803d;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s, color 0.2s;
+}
+.btn-browse:hover {
+  border-color: #16a34a;
+  background: #f0fdf4;
+  color: #15803d;
+}
+
+.btn-continue {
+  padding: 10px 22px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(90deg, #16a34a, #0d9488);
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  box-shadow: 0 3px 12px rgba(22, 163, 74, 0.28);
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.btn-continue:hover {
+  box-shadow: 0 6px 20px rgba(22, 163, 74, 0.35);
+  transform: translateY(-1px);
+}
+.btn-continue i {
+  font-size: 14px;
+  transition: transform 0.2s;
+}
+.btn-continue:hover i {
+  transform: translateX(3px);
+}
+
+.stat-cards-row {
+  display: flex;
+  gap: 16px;
+}
+
+
+.stat-card {
+  flex: 1;
+  border-radius: 16px;
+  padding: 22px 22px 20px 22px;
+  color: #ffffff;
+  cursor: default;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 140px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-4px);
+}
+
+.stat-card::after {
+  content: "";
+  position: absolute;
+  top: -28px;
+  right: -28px;
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  pointer-events: none;
+}
+
+.card-slate {
+  background: linear-gradient(135deg, #334155 0%, #1e293b 100%);
+  box-shadow: 0 8px 24px rgba(30, 41, 59, 0.3);
+}
+.card-slate:hover { box-shadow: 0 14px 32px rgba(30, 41, 59, 0.38); }
+
+.card-orange {
+  background: linear-gradient(135deg, #c2410c 0%, #78350f 100%);
+  box-shadow: 0 8px 24px rgba(194, 65, 12, 0.3);
+}
+.card-orange:hover { box-shadow: 0 14px 32px rgba(194, 65, 12, 0.38); }
+
+.card-teal {
+  background: linear-gradient(135deg, #0f766e 0%, #134e4a 100%);
+  box-shadow: 0 8px 24px rgba(15, 118, 110, 0.3);
+}
+.card-teal:hover { box-shadow: 0 14px 32px rgba(15, 118, 110, 0.38); }
+
+.card-green {
+  background: linear-gradient(135deg, #16a34a 0%, #14532d 100%);
+  box-shadow: 0 8px 24px rgba(22, 163, 74, 0.3);
+}
+.card-green:hover { box-shadow: 0 14px 32px rgba(22, 163, 74, 0.38); }
+
+.stat-card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.stat-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.stat-number {
+  font-size: 36px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -1px;
+}
+
+.stat-card-bottom h4 {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0 0 4px 0;
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.stat-card-bottom p {
+  font-size: 12px;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+@media (max-width: 1280px) {
+  .mid-wrapper {
+    padding: 22px 24px 16px 20px;
+  }
+  .stat-number { font-size: 30px; }
+  .stat-card { padding: 18px 18px 16px 18px; min-height: 128px; }
+  .stat-icon { width: 36px; height: 36px; font-size: 16px; }
+}
+@media (max-width: 900px) {
+  .mid-wrapper {
+    padding: 18px 18px 14px 18px;
+  }
+
+  .mid-top {
+    margin-bottom: 18px;
+  }
+
+  .mid-greet h2 { font-size: 22px; }
+
+  .stat-cards-row {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .stat-card {
+    flex: 1 1 calc(50% - 6px);
+    min-height: 118px;
+  }
+}
+
+@media (max-width: 640px) {
+  .mid-wrapper {
+    padding: 14px 14px 12px 14px;
+  }
+
+  .mid-top {
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 14px;
+    gap: 12px;
+  }
+
+  .mid-greet h2 { font-size: 19px; }
+  .mid-greet p { font-size: 13px; }
+
+  .mid-actions {
+    width: 100%;
+  }
+  .btn-browse,
+  .btn-continue {
+    flex: 1;
+    justify-content: center;
+    font-size: 12px;
+    padding: 9px 14px;
+  }
+
+
+  .stat-cards-row { gap: 10px; }
+  .stat-card {
+    flex: 1 1 calc(50% - 5px);
+    min-height: 108px;
+    padding: 14px 14px 12px 14px;
+    border-radius: 12px;
+  }
+
+  .stat-number { font-size: 26px; }
+  .stat-icon { width: 32px; height: 32px; font-size: 15px; border-radius: 8px; }
+  .stat-card-bottom h4 { font-size: 13px; }
+  .stat-card-bottom p { font-size: 11px; }
+  .stat-card-top { margin-bottom: 12px; }
+}
+
+@media (max-width: 480px) {
+  .mid-wrapper {
+    padding: 10px 10px 8px 10px;
+  }
+
+  .mid-greet h2 { font-size: 17px; }
+  .stat-card {
+    flex: 1 1 100%;
+    min-height: 90px;
+    flex-direction: row;
+    align-items: center;
+    padding: 14px 16px;
+    gap: 0;
+  }
+
+  .stat-card-top {
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 0;
+    margin-right: 16px;
+    gap: 6px;
+    flex-shrink: 0;
+  }
+
+  .stat-number { font-size: 28px; }
+
+  .stat-card-bottom {
+    flex: 1;
+    border-left: 1px solid rgba(255,255,255,0.2);
+    padding-left: 16px;
+  }
+
+  .stat-card::after { display: none; }
+}
+@media (min-width: 1600px) {
+  .mid-wrapper {
+    padding: 36px 48px 24px 32px;
+  }
+
+  .mid-greet h2 { font-size: 30px; }
+  .mid-greet p { font-size: 15px; }
+
+  .stat-cards-row { gap: 20px; }
+  .stat-card { padding: 26px 26px 22px 26px; min-height: 160px; border-radius: 18px; }
+  .stat-number { font-size: 42px; }
+  .stat-icon { width: 46px; height: 46px; font-size: 20px; border-radius: 12px; }
+  .stat-card-bottom h4 { font-size: 16px; }
+  .stat-card-bottom p { font-size: 13px; }
+
+  .btn-browse, .btn-continue { font-size: 14px; padding: 12px 26px; }
 }
