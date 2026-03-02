@@ -2,6 +2,47 @@ import React, { useState, useRef, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import "./Header.css";
 
+/* ── Tooltip component that calculates its own position ── */
+function IconBtn({ to, icon, label }) {
+  const [hover, setHover] = useState(false);
+  const btnRef = useRef(null);
+  const [tipStyle, setTipStyle] = useState({});
+
+  const handleMouseEnter = () => {
+    if (btnRef.current) {
+      const rect = btnRef.current.getBoundingClientRect();
+      setTipStyle({
+        top: rect.bottom + 8,
+        left: rect.left + rect.width / 2,
+      });
+    }
+    setHover(true);
+  };
+
+  return (
+    <>
+      <NavLink
+        to={to}
+        className="icon-btn"
+        aria-label={label}
+        ref={btnRef}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={() => setHover(false)}
+      >
+        <i className={icon} />
+      </NavLink>
+      {hover && (
+        <div
+          className="icon-btn-tooltip"
+          style={{ top: tipStyle.top, left: tipStyle.left }}
+        >
+          {label}
+        </div>
+      )}
+    </>
+  );
+}
+
 function Header({ sidebarOpen, onToggleSidebar }) {
   const [searchOpen, setSearchOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
@@ -9,14 +50,11 @@ function Header({ sidebarOpen, onToggleSidebar }) {
   const profileRef = useRef(null);
   const navigate = useNavigate();
 
-  // focus input when search opens
   useEffect(() => {
-    if (searchOpen && inputRef.current) {
+    if (searchOpen && inputRef.current)
       setTimeout(() => inputRef.current.focus(), 50);
-    }
   }, [searchOpen]);
 
-  // close search on Escape
   useEffect(() => {
     const handleKey = (e) => {
       if (e.key === "Escape") {
@@ -28,31 +66,20 @@ function Header({ sidebarOpen, onToggleSidebar }) {
     return () => window.removeEventListener("keydown", handleKey);
   }, []);
 
-  // close profile dropdown when clicking outside
   useEffect(() => {
     const handleClick = (e) => {
-      if (profileRef.current && !profileRef.current.contains(e.target)) {
+      if (profileRef.current && !profileRef.current.contains(e.target))
         setProfileOpen(false);
-      }
     };
     if (profileOpen) document.addEventListener("mousedown", handleClick);
     return () => document.removeEventListener("mousedown", handleClick);
   }, [profileOpen]);
 
-  const openSearch = () => setSearchOpen(true);
-  const closeSearch = () => setSearchOpen(false);
-
-  const handleLogout = () => {
-    setProfileOpen(false);
-    navigate("/login");
-  };
-
   return (
     <>
-      {/* backdrop for search */}
       <div
         className={`search-backdrop ${searchOpen ? "search-backdrop--visible" : ""}`}
-        onClick={closeSearch}
+        onClick={() => setSearchOpen(false)}
       />
 
       <header className="site-header">
@@ -83,10 +110,9 @@ function Header({ sidebarOpen, onToggleSidebar }) {
           </div>
 
           <div className="header-actions">
-            {/* Search button */}
             <button
               className="search-trigger-btn"
-              onClick={openSearch}
+              onClick={() => setSearchOpen(true)}
               aria-label="Open search"
             >
               <i className="bi bi-search" />
@@ -94,21 +120,12 @@ function Header({ sidebarOpen, onToggleSidebar }) {
 
             <span className="header-divider" />
 
-            {/* IDE */}
-            <NavLink to="/ide" className="icon-btn" aria-label="IDE">
-              <i className="bi bi-code-slash" />
-              <span className="icon-btn-tooltip">IDE</span>
-            </NavLink>
-
-            {/* Playground */}
-            <NavLink
+            <IconBtn to="/ide" icon="bi bi-code-slash" label="IDE" />
+            <IconBtn
               to="/playground"
-              className="icon-btn"
-              aria-label="Playground"
-            >
-              <i className="bi bi-braces-asterisk" />
-              <span className="icon-btn-tooltip">Playground</span>
-            </NavLink>
+              icon="bi bi-braces-asterisk"
+              label="Playground"
+            />
 
             <span className="header-divider" />
 
@@ -116,8 +133,8 @@ function Header({ sidebarOpen, onToggleSidebar }) {
             <div className="avatar-wrapper" ref={profileRef}>
               <button
                 className="avatar-btn"
-                aria-label="User menu"
                 onClick={() => setProfileOpen((p) => !p)}
+                aria-label="User menu"
               >
                 <span className="avatar-initials">UK</span>
                 <span className="avatar-dot" />
@@ -138,15 +155,16 @@ function Header({ sidebarOpen, onToggleSidebar }) {
                     className="pd-item"
                     onClick={() => setProfileOpen(false)}
                   >
-                    <i className="bi bi-person-circle" />
-                    View Profile
+                    <i className="bi bi-person-circle" /> View Profile
                   </NavLink>
                   <button
                     className="pd-item pd-item-logout"
-                    onClick={handleLogout}
+                    onClick={() => {
+                      setProfileOpen(false);
+                      navigate("/login");
+                    }}
                   >
-                    <i className="bi bi-box-arrow-right" />
-                    Logout
+                    <i className="bi bi-box-arrow-right" /> Logout
                   </button>
                 </div>
               )}
@@ -168,7 +186,7 @@ function Header({ sidebarOpen, onToggleSidebar }) {
           />
           <button
             className="search-close-btn"
-            onClick={closeSearch}
+            onClick={() => setSearchOpen(false)}
             aria-label="Close search"
           >
             <i className="bi bi-x" />

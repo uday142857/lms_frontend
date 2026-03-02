@@ -36,7 +36,7 @@ function SideBarNavs({ onNavClick }) {
       </NavLink>
       <NavLink to="/overallreport" className="nav" onClick={onNavClick}>
         <div className="icon">
-          {/* <i class="bi bi-award"></i> */}
+          <i class="bi bi-file-earmark-fill"></i>
         </div>
         <span>Overall Report</span>
       </NavLink>
