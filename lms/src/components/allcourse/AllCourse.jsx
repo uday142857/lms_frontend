@@ -168,9 +168,9 @@ function AllCourse() {
   return (
     <div className="all-courses">
       <div className="course-top">
-        <p className="main-text">Learn Something New With</p>
+        {/* <p className="main-text">Learn Something New With</p> */}
         <h1 className="overlay-text">
-          Horizon<span>Trax</span>
+          Learn Something New !
         </h1>
         <p className="sub-para">
           Empower your future with cutting-edge courses in AI, technology, and

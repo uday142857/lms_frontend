@@ -28,6 +28,18 @@ function SideBarNavs({ onNavClick }) {
         </div>
         <span>Courses</span>
       </NavLink>
+      <NavLink to="/certificate" className="nav" onClick={onNavClick}>
+        <div className="icon">
+          <i class="bi bi-award"></i>
+        </div>
+        <span>Certificates</span>
+      </NavLink>
+      <NavLink to="/overallreport" className="nav" onClick={onNavClick}>
+        <div className="icon">
+          {/* <i class="bi bi-award"></i> */}
+        </div>
+        <span>Overall Report</span>
+      </NavLink>
 
       <NavLink to="/leaderboard" className="nav" onClick={onNavClick}>
         <div className="icon">

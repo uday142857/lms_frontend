@@ -16,56 +16,50 @@ function MidSection() {
           </button>
         </div> */}
       </div>
-      <div className="stat-cards-row">
-        <div className="stat-card card-slate">
-          <div className="stat-card-top">
-            <div className="stat-icon">
-              <i className="bi bi-people-fill"></i>
-            </div>
-            <span className="stat-number">1200</span>
-          </div>
-          <div className="stat-card-bottom">
-            <h4>Total Users</h4>
-            <p>800 Active &middot; 400 InActive</p>
-          </div>
-        </div>
 
-        <div className="stat-card card-orange">
-          <div className="stat-card-top">
-            <div className="stat-icon">
-              <i className="bi bi-journal-bookmark-fill"></i>
-            </div>
-            <span className="stat-number">800</span>
-          </div>
-          <div className="stat-card-bottom">
-            <h4>Total Courses</h4>
-            <p>400 Assigned &middot; 400 UnAssigned</p>
-          </div>
-        </div>
+      {/* ── Assessment Activity ── */}
+      <div className="activity-section">
+        <h3 className="activity-title">Assessment Activity</h3>
 
-        <div className="stat-card card-teal">
-          <div className="stat-card-top">
-            <div className="stat-icon">
-              <i className="bi bi-grid-fill"></i>
+        <div className="activity-grid">
+          <div className="activity-card">
+            <div className="ac-icon-wrap ac-icon-blue">
+              <i className="bi bi-clipboard-check"></i>
             </div>
-            <span className="stat-number">5</span>
+            <div className="ac-info">
+              <p className="ac-label">Tests Assigned</p>
+              <span className="ac-value ac-blue">49</span>
+            </div>
           </div>
-          <div className="stat-card-bottom">
-            <h4>Total Categories</h4>
-            <p>3 Active &middot; 2 InActive</p>
-          </div>
-        </div>
 
-        <div className="stat-card card-green">
-          <div className="stat-card-top">
-            <div className="stat-icon">
-              <i className="bi bi-lightning-charge-fill"></i>
+          <div className="activity-card">
+            <div className="ac-icon-wrap ac-icon-green">
+              <i className="bi bi-patch-check"></i>
             </div>
-            <span className="stat-number">7</span>
+            <div className="ac-info">
+              <p className="ac-label">Tests Completed</p>
+              <span className="ac-value ac-green">24</span>
+            </div>
           </div>
-          <div className="stat-card-bottom">
-            <h4>Day Streak</h4>
-            <p>Keep it up! Great start</p>
+
+          <div className="activity-card">
+            <div className="ac-icon-wrap ac-icon-purple">
+              <i className="bi bi-question-circle"></i>
+            </div>
+            <div className="ac-info">
+              <p className="ac-label">Questions Attempted</p>
+              <span className="ac-value ac-purple">634</span>
+            </div>
+          </div>
+
+          <div className="activity-card">
+            <div className="ac-icon-wrap ac-icon-orange">
+              <i className="bi bi-clock-history"></i>
+            </div>
+            <div className="ac-info">
+              <p className="ac-label">Total Time Spent</p>
+              <span className="ac-value ac-orange">518 mins</span>
+            </div>
           </div>
         </div>
       </div>

@@ -8,6 +8,8 @@ import Shop from "../shop/Shop";
 import Leaderboard from "../leaderboard/Leaderboard";
 import MockTestPage from "../mocktestpage/MockTestPage";
 import PopularVideos from "../popularvideos/PopularVideos";
+import Certificate from "../certificate/Certificate";
+import OverallReport from "../overallreport/OverallReport";
 
 function MainSection({ sidebarOpen, onToggleSidebar }) {
   return (
@@ -20,6 +22,8 @@ function MainSection({ sidebarOpen, onToggleSidebar }) {
         <Route path="/leaderboard" element={<Leaderboard />} />
         <Route path="/mocktest" element={<MockTestPage />} />
         <Route path="/popular-videos" element={<PopularVideos />} />
+        <Route path="/certificate" element={<Certificate/>} />
+        <Route path="/overallreport" element={<OverallReport/>} />
       </Routes>
     </div>
   );

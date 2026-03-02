@@ -1,0 +1,361 @@
+/* ── Certificate Page ── */
+/* Color palette from HorizonTrax LMS:
+   Background: #e8f5f0 (mint green)
+   Sidebar/Cards: #ffffff
+   Primary text: #1a3c34 (dark green)
+   Accent green: #2d6a4f
+   Light accent: #d1ede3
+   Border: #c3dfd4
+*/
+
+.certificate-page {
+  background-color: #e8f5f0;
+  min-height: 100vh;
+  font-family: 'Segoe UI', sans-serif;
+  color: #1a3c34;
+}
+
+/* ── Hero Banner ── */
+.cert-hero {
+  background-color: #d1ede3;
+  border-radius: 16px;
+  margin: 28px 32px 0;
+  padding: 48px 48px 44px;
+  border: 1px solid #c3dfd4;
+}
+
+.cert-hero-icon {
+  font-size: 2rem;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.cert-hero h1 {
+  font-size: 2.4rem;
+  font-weight: 800;
+  color: #1a3c34;
+  margin: 0 0 14px;
+  letter-spacing: -0.5px;
+}
+
+.cert-hero p {
+  font-size: 1rem;
+  color: #2d5a4a;
+  max-width: 540px;
+  line-height: 1.65;
+  margin: 0 0 28px;
+}
+
+.cert-hero-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.btn-download-all,
+.btn-share-all {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+}
+
+.btn-download-all {
+  background-color: #2d6a4f;
+  color: #ffffff;
+}
+
+.btn-download-all:hover {
+  background-color: #245a40;
+}
+
+.btn-share-all {
+  background-color: #ffffff;
+  color: #2d6a4f;
+  border: 1.5px solid #2d6a4f;
+}
+
+.btn-share-all:hover {
+  background-color: #f0faf5;
+}
+
+/* ── Main Content ── */
+.cert-main {
+  padding: 36px 32px;
+}
+
+/* ── Section Header ── */
+.cert-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.cert-section-title h2 {
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: #1a3c34;
+  margin: 0 0 4px;
+}
+
+.cert-section-title p {
+  font-size: 0.88rem;
+  color: #5a8070;
+  margin: 0;
+}
+
+.cert-pro-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background-color: #ffffff;
+  border: 1.5px solid #c3dfd4;
+  color: #2d6a4f;
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 20px;
+}
+
+/* ── Empty State ── */
+.cert-empty {
+  background-color: #ffffff;
+  border-radius: 16px;
+  border: 1px solid #c3dfd4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 24px;
+  text-align: center;
+}
+
+.cert-empty-icon {
+  width: 80px;
+  height: 80px;
+  background-color: #d1ede3;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.cert-empty h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1a3c34;
+  margin: 0 0 8px;
+}
+
+.cert-empty p {
+  font-size: 0.9rem;
+  color: #5a8070;
+  max-width: 300px;
+  line-height: 1.6;
+  margin: 0 0 24px;
+}
+
+.btn-explore {
+  padding: 11px 28px;
+  background-color: #2d6a4f;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 0.9rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.btn-explore:hover {
+  background-color: #245a40;
+}
+
+/* ── Certificate Cards Grid ── */
+.cert-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.cert-card {
+  background-color: #ffffff;
+  border-radius: 14px;
+  border: 1px solid #c3dfd4;
+  overflow: hidden;
+}
+
+.cert-card-top {
+  background-color: #d1ede3;
+  padding: 20px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  border-bottom: 1px solid #c3dfd4;
+}
+
+.cert-card-badge {
+  width: 48px;
+  height: 48px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  border: 1px solid #c3dfd4;
+  flex-shrink: 0;
+}
+
+.cert-card-info h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1a3c34;
+  margin: 0 0 4px;
+}
+
+.cert-card-info span {
+  font-size: 0.8rem;
+  color: #5a8070;
+}
+
+.cert-card-body {
+  padding: 18px 20px;
+}
+
+.cert-card-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.cert-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: #3a5a50;
+}
+
+.cert-meta-item svg {
+  color: #2d6a4f;
+  flex-shrink: 0;
+}
+
+.cert-card-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-card-download {
+  flex: 1;
+  padding: 9px;
+  background-color: #2d6a4f;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.btn-card-download:hover {
+  background-color: #245a40;
+}
+
+.btn-card-share {
+  padding: 9px 16px;
+  background-color: #ffffff;
+  color: #2d6a4f;
+  border: 1.5px solid #2d6a4f;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-card-share:hover {
+  background-color: #f0faf5;
+}
+
+/* ── Media Queries ── */
+@media (max-width: 1024px) {
+  .cert-hero {
+    margin: 20px 20px 0;
+    padding: 36px 32px;
+  }
+
+  .cert-main {
+    padding: 28px 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .cert-hero {
+    margin: 16px 16px 0;
+    padding: 28px 24px;
+  }
+
+  .cert-hero h1 {
+    font-size: 1.8rem;
+  }
+
+  .cert-hero p {
+    font-size: 0.92rem;
+  }
+
+  .cert-main {
+    padding: 24px 16px;
+  }
+
+  .cert-section-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .cert-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .cert-hero {
+    margin: 12px 12px 0;
+    padding: 24px 18px;
+  }
+
+  .cert-hero h1 {
+    font-size: 1.5rem;
+  }
+
+  .cert-hero-actions {
+    flex-direction: column;
+  }
+
+  .btn-download-all,
+  .btn-share-all {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .cert-main {
+    padding: 20px 12px;
+  }
+
+  .cert-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cert-empty {
+    padding: 52px 16px;
+  }
+}
