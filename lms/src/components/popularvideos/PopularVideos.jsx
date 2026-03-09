@@ -198,7 +198,6 @@ function PopularVideos() {
         </div>
       </div>
 
-      {/* ── GRID ── */}
       <div className="pv-grid">
         {popularVideos.map((video) => (
           <div className="pv-card" key={video.id}>

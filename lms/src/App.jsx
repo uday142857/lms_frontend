@@ -1,33 +1,54 @@
-
 import React, { useState } from "react";
 import "./App.css";
 import Header from "./components/header/Header";
 import SideNav from "./components/sidenav/SideNav";
 import MainSection from "./components/mainsection/MainSection";
+import { Route, Routes ,Navigate} from "react-router-dom";
+import LandingPage from "./components/landingpage/LandingPage";
+import AdminDashBoard from "./admincomponents/admindashboard/AdminDashBoard";
+import UserDashboard from "./components/userdashboard/UserDashboard";
 
 function App() {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   return (
-    <div className="main">
-      {/* Dark overlay behind sidebar on mobile */}
-      <div
-        className={`sidebar-overlay ${sidebarOpen ? "sidebar-overlay--visible" : ""}`}
-        onClick={() => setSidebarOpen(false)}
+    <Routes>
+      <Route path="/" element={<LandingPage />} />
+      <Route
+        path="/admin-dashboard/*"
+        element={
+          isAdmin ? (
+            <AdminDashBoard onBack={() => setIsAdmin(false)} />
+          ) : (
+            <Navigate to="/dashboard" />
+          )
+        }
       />
-
-      <div className={`sidebar ${sidebarOpen ? "sidebar--open" : ""}`}>
-        <SideNav onClose={() => setSidebarOpen(false)} />
-      </div>
-
-      <div className="main-section">
-        <MainSection
-          sidebarOpen={sidebarOpen}
-          onToggleSidebar={() => setSidebarOpen((prev) => !prev)}
-        />
-      </div>
-    </div>
+      <Route
+        path="/*"
+        element={<UserDashboard onEnterAdmin={() => setIsAdmin(true)} />}
+      />
+    </Routes>
   );
 }
 
 export default App;
+
+// import { Route, Routes } from "react-router-dom";
+// import LandingPage from "./components/landingpage/LandingPage";
+// import AdminDashBoard from "./admincomponents/admindashboard/AdminDashBoard";
+// import UserDashboard from "./components/userdashboard/UserDashboard";
+
+// function App() {
+//   return (
+//     <Routes>
+//       <Route path="/" element={<LandingPage />} />
+
+//       <Route path="/dashboard/*" element={<UserDashboard />} />
+
+//       <Route path="/admin-dashboard" element={<AdminDashBoard />} />
+//     </Routes>
+//   );
+// }
+
+// export default App;

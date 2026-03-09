@@ -1,13 +1,3 @@
-
-{
-  /* <NavLink to="/web" className="nav">
-        <div className="icon">
-          <i className="bi bi-braces-asterisk"></i>
-        </div>
-        <span>Web Playground</span>
-      </NavLink> */
-}
-
 import React from "react";
 import { NavLink } from "react-router-dom";
 import "./SideBarNavs.css";
@@ -15,7 +5,7 @@ import "./SideBarNavs.css";
 function SideBarNavs({ onNavClick }) {
   return (
     <div className="nav-container">
-      <NavLink to="/" className="nav" onClick={onNavClick}>
+      <NavLink to="/dashboard" className="nav" onClick={onNavClick}>
         <div className="icon">
           <i className="bi bi-mortarboard"></i>
         </div>

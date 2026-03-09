@@ -1,0 +1,323 @@
+@import url("https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500;600&display=swap");
+.lp {
+  min-height: 100vh;
+  background: #f0fdf4;
+  font-family: "DM Sans", sans-serif;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+.lp-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.lp-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(72px);
+  opacity: 0.55;
+}
+.lp-orb--1 {
+  width: 520px; height: 520px;
+  background: radial-gradient(circle, #86efac, #16a34a22);
+  top: -160px; left: -120px;
+  animation: orb-float-1 9s ease-in-out infinite;
+}
+.lp-orb--2 {
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, #6ee7b7, #10b98122);
+  bottom: -100px; right: -80px;
+  animation: orb-float-2 11s ease-in-out infinite;
+}
+.lp-orb--3 {
+  width: 280px; height: 280px;
+  background: radial-gradient(circle, #bbf7d0, #059669 18);
+  top: 40%; left: 55%;
+  opacity: 0.35;
+  animation: orb-float-3 14s ease-in-out infinite;
+}
+@keyframes orb-float-1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%       { transform: translate(40px, 30px) scale(1.06); }
+  66%       { transform: translate(-20px, 50px) scale(0.96); }
+}
+@keyframes orb-float-2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  40%       { transform: translate(-50px, -30px) scale(1.08); }
+  70%       { transform: translate(20px, -50px) scale(0.95); }
+}
+@keyframes orb-float-3 {
+  0%, 100% { transform: translate(0, 0); }
+  50%       { transform: translate(-40px, 30px) scale(1.1); }
+}
+
+.lp-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(22, 163, 74, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(22, 163, 74, 0.055) 1px, transparent 1px);
+  background-size: 52px 52px;
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
+}
+
+
+.lp-particles {
+  position: absolute;
+  inset: 0;
+}
+.lp-dot {
+  position: absolute;
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: #16a34a;
+  opacity: 0;
+  animation: dot-rise calc(6s + var(--i) * 0.7s) ease-in-out infinite;
+  animation-delay: calc(var(--i) * 0.55s);
+  left: calc(5% + var(--i) * 5.2%);
+  bottom: -10px;
+}
+
+.lp-dot:nth-child(odd)  { width: 4px; height: 4px; opacity: 0; }
+.lp-dot:nth-child(3n)   { width: 7px; height: 7px; background: #10b981; }
+.lp-dot:nth-child(5n)   { width: 3px; height: 3px; background: #6ee7b7; }
+
+@keyframes dot-rise {
+  0%   { transform: translateY(0)   scale(0.6); opacity: 0; }
+  15%  { opacity: 0.7; }
+  85%  { opacity: 0.4; }
+  100% { transform: translateY(-100vh) scale(1); opacity: 0; }
+}
+
+
+.lp-header {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 48px;
+}
+
+
+.lp-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+.lp-logo-box {
+  width: 38px; height: 38px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #16a34a, #059669);
+  color: #fff;
+  font-family: "Syne", sans-serif;
+  font-size: 13px; font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 14px rgba(22, 163, 74, 0.32);
+  flex-shrink: 0;
+  letter-spacing: 0.3px;
+}
+.lp-logo-name {
+  font-size: 16px; font-weight: 600;
+  color: #111827;
+}
+.lp-logo-tag {
+  font-style: normal;
+  color: #16a34a;
+  font-weight: 800;
+}
+
+
+.lp-header-btns {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.lp-btn-ghost {
+  padding: 9px 22px;
+  border: 1.5px solid #d1fae5;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(8px);
+  color: #16a34a;
+  font-family: "DM Sans", sans-serif;
+  font-size: 14px; font-weight: 600;
+  cursor: pointer;
+  transition: background 0.18s, border-color 0.18s, transform 0.18s;
+}
+.lp-btn-ghost:hover {
+  background: #fff;
+  border-color: #6ee7b7;
+  transform: translateY(-1px);
+}
+
+.lp-btn-solid {
+  padding: 9px 22px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #16a34a, #059669);
+  color: #fff;
+  font-family: "DM Sans", sans-serif;
+  font-size: 14px; font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(22, 163, 74, 0.32);
+  transition: box-shadow 0.18s, transform 0.18s;
+}
+.lp-btn-solid:hover {
+  box-shadow: 0 6px 22px rgba(22, 163, 74, 0.44);
+  transform: translateY(-1px);
+}
+
+
+.lp-hero {
+  position: relative;
+  z-index: 10;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px 24px 80px;
+  gap: 0;
+}
+
+
+.lp-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(8px);
+  border: 1px solid #d1fae5;
+  border-radius: 100px;
+  padding: 7px 18px;
+  font-size: 12.5px; font-weight: 600;
+  color: #065f46;
+  margin-bottom: 28px;
+  box-shadow: 0 2px 10px rgba(22, 163, 74, 0.1);
+  animation: badge-in 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+.lp-dot-live {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: #16a34a;
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.22);
+  animation: live-pulse 2s ease infinite;
+  flex-shrink: 0;
+}
+@keyframes live-pulse {
+  0%, 100% { box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.22); }
+  50%       { box-shadow: 0 0 0 6px rgba(22, 163, 74, 0.08); }
+}
+@keyframes badge-in {
+  from { opacity: 0; transform: translateY(14px) scale(0.95); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+
+.lp-title {
+  font-family: "Syne", sans-serif;
+  font-size: clamp(40px, 7vw, 80px);
+  font-weight: 800;
+  line-height: 1.08;
+  color: #064e3b;
+  margin: 0 0 22px;
+  letter-spacing: -2px;
+  animation: title-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
+}
+.lp-title-grad {
+  background: linear-gradient(90deg, #16a34a 0%, #10b981 50%, #0d9488 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+@keyframes title-in {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.lp-sub {
+  font-size: clamp(14px, 1.6vw, 18px);
+  font-weight: 400;
+  color: #4b5563;
+  line-height: 1.7;
+  margin: 0 0 40px;
+  max-width: 520px;
+  animation: title-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
+}
+
+.lp-btn-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px 36px;
+  border: none;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #16a34a, #059669);
+  color: #fff;
+  font-family: "DM Sans", sans-serif;
+  font-size: 16px; font-weight: 700;
+  cursor: pointer;
+  box-shadow:
+    0 6px 24px rgba(22, 163, 74, 0.38),
+    0 2px 6px rgba(22, 163, 74, 0.2);
+  transition: box-shadow 0.2s, transform 0.2s;
+  animation: cta-in 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 0.35s both;
+  position: relative;
+  overflow: hidden;
+}
+
+.lp-btn-cta::before {
+  content: "";
+  position: absolute;
+  top: 0; left: -100%;
+  width: 60%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.22), transparent);
+  transition: left 0.5s ease;
+}
+.lp-btn-cta:hover::before { left: 150%; }
+.lp-btn-cta:hover {
+  box-shadow: 0 10px 32px rgba(22, 163, 74, 0.48), 0 2px 8px rgba(22, 163, 74, 0.24);
+  transform: translateY(-2px) scale(1.02);
+}
+.lp-btn-cta:active { transform: translateY(0) scale(0.98); }
+.lp-btn-cta svg {
+  transition: transform 0.2s;
+}
+.lp-btn-cta:hover svg { transform: translateX(4px); }
+
+@keyframes cta-in {
+  from { opacity: 0; transform: translateY(16px) scale(0.94); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+
+.lp-hint {
+  font-size: 12px;
+  color: #9ca3af;
+  margin: 16px 0 0;
+  font-weight: 400;
+  animation: title-in 0.6s ease 0.5s both;
+}
+
+@media (max-width: 640px) {
+  .lp-header {
+    padding: 16px 20px;
+  }
+  .lp-logo-name { display: none; }
+  .lp-btn-ghost { padding: 8px 16px; font-size: 13px; }
+  .lp-btn-solid { padding: 8px 16px; font-size: 13px; }
+  .lp-title { letter-spacing: -1px; margin-bottom: 16px; }
+  .lp-sub { font-size: 14px; }
+  .lp-btn-cta { padding: 13px 28px; font-size: 15px; }
+  .lp-orb--1 { width: 320px; height: 320px; }
+  .lp-orb--2 { width: 260px; height: 260px; }
+}

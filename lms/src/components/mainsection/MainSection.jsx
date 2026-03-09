@@ -10,20 +10,27 @@ import MockTestPage from "../mocktestpage/MockTestPage";
 import PopularVideos from "../popularvideos/PopularVideos";
 import Certificate from "../certificate/Certificate";
 import OverallReport from "../overallreport/OverallReport";
+import LandingPage from "../landingpage/LandingPage";
 
-function MainSection({ sidebarOpen, onToggleSidebar }) {
+function MainSection({ sidebarOpen, onToggleSidebar, onEnterAdmin }) {
   return (
     <div>
-      <Header sidebarOpen={sidebarOpen} onToggleSidebar={onToggleSidebar} />
+      <Header
+        onEnterAdmin={onEnterAdmin}
+        sidebarOpen={sidebarOpen}
+        onToggleSidebar={onToggleSidebar}
+        // adminDashOpen={adminDashOpen}
+      />
       <Routes>
-        <Route path="/" element={<RouteSection />} />
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/dashboard" element={<RouteSection />} />
         <Route path="/course" element={<AllCourse />} />
         <Route path="/shop" element={<Shop />} />
         <Route path="/leaderboard" element={<Leaderboard />} />
         <Route path="/mocktest" element={<MockTestPage />} />
         <Route path="/popular-videos" element={<PopularVideos />} />
-        <Route path="/certificate" element={<Certificate/>} />
-        <Route path="/overallreport" element={<OverallReport/>} />
+        <Route path="/certificate" element={<Certificate />} />
+        <Route path="/overallreport" element={<OverallReport />} />
       </Routes>
     </div>
   );

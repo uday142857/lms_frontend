@@ -1,0 +1,292 @@
+/* 
+body {
+  margin: 0;
+  padding: 0;
+}
+
+
+.sidenav {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
+  background: #dcfce7;
+  border-right: 2px solid #86efac;
+  position: relative;
+}
+
+
+.side-header {
+  padding: 14px 16px 13px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #bbf7d0;
+  flex-shrink: 0;
+  background: transparent;
+}
+
+.brand {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+
+.logo {
+  border-radius: 9px;
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  background: linear-gradient(135deg, #16a34a 0%, #059669 100%);
+  border: none;
+  font-size: 13px;
+  font-weight: 800;
+  margin: 0;
+  letter-spacing: 0.5px;
+  box-shadow: 0 3px 10px rgba(22, 163, 74, 0.28);
+  flex-shrink: 0;
+  padding: 0;
+}
+
+.brand-name {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #111827;
+  letter-spacing: -0.2px;
+  white-space: nowrap;
+}
+
+.brand-tag {
+  color: #16a34a;
+  font-weight: 900;
+}
+
+
+.sidenav-close-btn {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  cursor: pointer;
+  font-size: 16px;
+  color: #6b7280;
+  transition: background 0.2s ease, color 0.2s ease;
+  flex-shrink: 0;
+}
+
+.sidenav-close-btn:hover {
+  background: rgba(239, 68, 68, 0.08);
+  color: #dc2626;
+}
+
+
+@media (max-width: 900px) {
+  .sidenav-close-btn { display: flex; }
+  .sidenav { background: #dcfce7; }
+} */
+/* 
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.a-sidenav {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: #e0f2fe;
+  border-right: 2px solid #7dd3fc;
+  position: relative;
+}
+
+.a-side-header {
+  padding: 14px 16px 13px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #bae6fd;
+  flex-shrink: 0;
+  background: transparent;
+}
+
+.a-brand {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.a-logo {
+  border-radius: 9px;
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  background: linear-gradient(135deg, #0369a1 0%, #0284c7 100%);
+  border: none;
+  font-size: 13px;
+  font-weight: 800;
+  margin: 0;
+  letter-spacing: 0.5px;
+  box-shadow: 0 3px 10px rgba(3, 105, 161, 0.28);
+  flex-shrink: 0;
+  padding: 0;
+}
+
+.a-brand-name {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #111827;
+  letter-spacing: -0.2px;
+  white-space: nowrap;
+}
+
+.a-brand-tag {
+  color: #0369a1;
+  font-weight: 900;
+}
+
+.a-sidenav-close-btn {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  cursor: pointer;
+  font-size: 16px;
+  color: #6b7280;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+  flex-shrink: 0;
+}
+
+.a-sidenav-close-btn:hover {
+  background: rgba(239, 68, 68, 0.08);
+  color: #dc2626;
+}
+
+@media (max-width: 900px) {
+  .a-sidenav-close-btn {
+    display: flex;
+  }
+  .a-sidenav {
+    background: #e0f2fe;
+  }
+} */
+
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+/* ── Sidebar shell ──────────────────────────────────────── */
+.a-sidenav {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: #e0f2fe;
+  border-right: 2px solid #93c5fd;
+  position: relative;
+}
+
+/* ── Brand / header ─────────────────────────────────────── */
+.a-side-header {
+  padding: 14px 16px 13px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #bfdbfe;
+  flex-shrink: 0;
+  background: transparent;
+}
+
+.a-brand {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Logo box */
+.a-logo {
+  border-radius: 9px;
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
+  border: none;
+  font-size: 13px;
+  font-weight: 800;
+  margin: 0;
+  letter-spacing: 0.5px;
+  box-shadow: 0 3px 10px rgba(37, 99, 235, 0.35);
+  flex-shrink: 0;
+  padding: 0;
+}
+
+/* Brand name */
+.a-brand-name {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #111827;
+  letter-spacing: -0.2px;
+  white-space: nowrap;
+}
+
+.a-brand-tag {
+  color: #2563eb;
+  font-weight: 900;
+}
+
+/* ── Close button (mobile only) ─────────────────────────── */
+.a-sidenav-close-btn {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  cursor: pointer;
+  font-size: 16px;
+  color: #6b7280;
+  transition: background 0.2s ease, color 0.2s ease;
+  flex-shrink: 0;
+}
+
+.a-sidenav-close-btn:hover {
+  background: rgba(239, 68, 68, 0.08);
+  color: #dc2626;
+}
+
+/* ── Responsive ─────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .a-sidenav-close-btn { display: flex; }
+  .a-sidenav { background: #e0f2fe; }
+}

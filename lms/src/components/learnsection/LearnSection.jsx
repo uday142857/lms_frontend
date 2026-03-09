@@ -1,11 +1,11 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-
-
 import "./LearnSection.css";
 
 function LearnSection() {
   const navigate = useNavigate();
+  const watch = (slug) => navigate(`/watch/${slug}`);
+
   return (
     <div className="learn-main">
       <div className="mid2-main">
@@ -20,7 +20,11 @@ function LearnSection() {
             </span>
           </div>
           <div className="video-container">
-            <div className="video-box">
+            <div
+              className="video-box"
+              style={{ cursor: "pointer" }}
+              onClick={() => watch("mern-full-stack")}
+            >
               <div className="video-image-box">
                 <div className="video-image">
                   <img
@@ -41,7 +45,11 @@ function LearnSection() {
                 </div>
               </div>
             </div>
-            <div className="video-box">
+            <div
+              className="video-box"
+              style={{ cursor: "pointer" }}
+              onClick={() => watch("flutter-react-native")}
+            >
               <div className="video-image-box">
                 <div className="video-image">
                   <img
@@ -62,7 +70,11 @@ function LearnSection() {
                 </div>
               </div>
             </div>
-            <div className="video-box">
+            <div
+              className="video-box"
+              style={{ cursor: "pointer" }}
+              onClick={() => watch("python-beginners")}
+            >
               <div className="video-image-box">
                 <div className="video-image">
                   <img
@@ -83,7 +95,11 @@ function LearnSection() {
                 </div>
               </div>
             </div>
-            <div className="video-box">
+            <div
+              className="video-box"
+              style={{ cursor: "pointer" }}
+              onClick={() => watch("machine-learning-deeplearning")}
+            >
               <div className="video-image-box">
                 <div className="video-image">
                   <img
@@ -104,7 +120,11 @@ function LearnSection() {
                 </div>
               </div>
             </div>
-            <div className="video-box">
+            <div
+              className="video-box"
+              style={{ cursor: "pointer" }}
+              onClick={() => watch("aws-machine-learning")}
+            >
               <div className="video-image-box">
                 <div className="video-image">
                   <img
@@ -124,7 +144,11 @@ function LearnSection() {
                 </div>
               </div>
             </div>
-            <div className="video-box">
+            <div
+              className="video-box"
+              style={{ cursor: "pointer" }}
+              onClick={() => watch("generative-ai-prompt-engineering")}
+            >
               <div className="video-image-box">
                 <div className="video-image">
                   <img
@@ -145,7 +169,11 @@ function LearnSection() {
                 </div>
               </div>
             </div>
-            <div className="video-box">
+            <div
+              className="video-box"
+              style={{ cursor: "pointer" }}
+              onClick={() => watch("intro-artificial-intelligence")}
+            >
               <div className="video-image-box">
                 <div className="video-image">
                   <img
