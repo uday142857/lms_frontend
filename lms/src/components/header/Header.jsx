@@ -349,7 +349,7 @@ function Header({ sidebarOpen, onToggleSidebar, onEnterAdmin }) {
                     <i className="bi bi-person-circle" /> View Profile
                   </NavLink>
                   <NavLink
-                    to="/admin-dashboard/my-courses"
+                    to="/admin-dashboard/admin-interface"
                     className="pd-item"
                     onClick={() => {
                       setProfileOpen(false);

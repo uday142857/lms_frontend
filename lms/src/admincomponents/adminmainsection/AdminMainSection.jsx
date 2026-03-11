@@ -1,11 +1,13 @@
-import React from 'react'
-import { Route,Routes } from 'react-router-dom'
-import "./AdminMainSection.css"
-import CreateCourses from "../../adminpages/createcourse/CreateCourses"
-import OurCourses from '../../adminpages/ourcourses/OurCourses'
-import AdminHeader from '../../adminpages/adminheader/AdminHeader'
-import Analytics from '../../adminpages/analytics/Analytics'
-import CourseEditor from '../../adminpages/courseeditor/CourseEditor'
+import React from "react";
+import { Route, Routes } from "react-router-dom";
+import "./AdminMainSection.css";
+import CreateCourses from "../../adminpages/createcourse/CreateCourses";
+import OurCourses from "../../adminpages/ourcourses/OurCourses";
+import AdminHeader from "../../adminpages/adminheader/AdminHeader";
+import Analytics from "../../adminpages/analytics/Analytics";
+import CourseEditor from "../../adminpages/courseeditor/CourseEditor";
+import CreateMocktest from "../../adminpages/createmocktest/CreateMocktest";
+import AdminInterface from "../../adminpages/admininterface/AdminInterface";
 
 function AdminMainSection({ sidebarOpen, onToggleSidebar, onEnterAdmin }) {
   return (
@@ -16,13 +18,15 @@ function AdminMainSection({ sidebarOpen, onToggleSidebar, onEnterAdmin }) {
         onToggleSidebar={onToggleSidebar}
       />
       <Routes>
+        <Route path="admin-interface" element={<AdminInterface />} />
         <Route path="create-course" element={<CreateCourses />} />
         <Route path="my-courses" element={<OurCourses />} />
         <Route path="analytics" element={<Analytics />} />
-        <Route path="courses/:courseId" element={<CourseEditor/>} />
+        <Route path="courses/:courseId" element={<CourseEditor />} />
+        <Route path="assessment" element={<CreateMocktest />} />
       </Routes>
     </div>
   );
 }
 
-export default AdminMainSection
+export default AdminMainSection;

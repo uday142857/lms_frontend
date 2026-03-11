@@ -33,14 +33,14 @@ function AdminSidebarNav({ onNavClick }) {
         <span>My Courses</span>
       </NavLink>
       <NavLink
-        to="/admin-dashboard/create-mocktest"
+        to="/admin-dashboard/assessment"
         className="a-nav"
         onClick={onNavClick}
       >
         <div className="a-icon">
           <i class="bi bi-plus-circle-dotted"></i>
         </div>
-        <span>Create a Mocktest</span>
+        <span>Assessment</span>
       </NavLink>
       <NavLink
         to="/admin-dashboard/analytics"

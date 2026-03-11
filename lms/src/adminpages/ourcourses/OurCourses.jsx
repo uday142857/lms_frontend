@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useRef, useEffect } from "react";
+import ReactDOM from "react-dom";
 import "./OurCourses.css";
 
 // ── Shared courses store ─────────────────────────────────────────────────────
@@ -66,49 +67,126 @@ export const coursesData = [
 ];
 
 const PAGE_SIZE = 10;
+const DROPDOWN_WIDTH = 200;
+const DROPDOWN_HEIGHT = 180; // approx height of menu
 
-// ── Row action dropdown ──────────────────────────────────────────────────────
-function ActionMenu({ course, onDelete }) {
-  const [open, setOpen] = useState(false);
-  const [copied, setCopied] = useState(false);
-  const ref = useRef(null);
+// ── Portal menu — appended to document.body, never clipped ──────────────────
+function PortalMenu({ anchorRef, onClose, children }) {
+  const menuRef = useRef(null);
+  const [style, setStyle] = useState({ visibility: "hidden" });
 
   useEffect(() => {
-    const fn = (e) => {
-      if (ref.current && !ref.current.contains(e.target)) setOpen(false);
+    // Calculate position from anchor button
+    const rect = anchorRef.current.getBoundingClientRect();
+    const spaceBelow = window.innerHeight - rect.bottom;
+    const openUp = spaceBelow < DROPDOWN_HEIGHT + 10;
+
+    setStyle({
+      position: "fixed",
+      width: DROPDOWN_WIDTH,
+      left: rect.right - DROPDOWN_WIDTH,
+      top: openUp ? rect.top - DROPDOWN_HEIGHT - 6 : rect.bottom + 6,
+      visibility: "visible",
+      zIndex: 999999,
+    });
+  }, []);
+
+  // Close on outside click
+  useEffect(() => {
+    const handler = (e) => {
+      if (
+        menuRef.current &&
+        !menuRef.current.contains(e.target) &&
+        anchorRef.current &&
+        !anchorRef.current.contains(e.target)
+      ) {
+        onClose();
+      }
     };
-    if (open) document.addEventListener("mousedown", fn);
-    return () => document.removeEventListener("mousedown", fn);
-  }, [open]);
+    // small delay so the toggle click doesn't immediately close it
+    const timer = setTimeout(
+      () => document.addEventListener("mousedown", handler),
+      10,
+    );
+    return () => {
+      clearTimeout(timer);
+      document.removeEventListener("mousedown", handler);
+    };
+  }, [onClose]);
+
+  return ReactDOM.createPortal(
+    <div ref={menuRef} className="oc-dropdown" style={style}>
+      {children}
+    </div>,
+    document.body,
+  );
+}
+
+// ── Delete confirm modal ─────────────────────────────────────────────────────
+function DeleteModal({ course, onConfirm, onCancel }) {
+  return ReactDOM.createPortal(
+    <div className="oc-modal-backdrop" onClick={onCancel}>
+      <div className="oc-modal" onClick={(e) => e.stopPropagation()}>
+        <button className="oc-modal-x" onClick={onCancel}>
+          <i className="bi bi-x-lg" />
+        </button>
+        <div className="oc-modal-icon">
+          <i className="bi bi-exclamation-triangle-fill" />
+        </div>
+        <h2 className="oc-modal-title">Are you absolutely sure?</h2>
+        <p className="oc-modal-desc">
+          This action cannot be undone. This will permanently delete{" "}
+          <strong>"{course.title}"</strong> and remove all its data.
+        </p>
+        <div className="oc-modal-actions">
+          <button className="oc-modal-cancel" onClick={onCancel}>
+            Cancel
+          </button>
+          <button className="oc-modal-delete" onClick={onConfirm}>
+            <i className="bi bi-trash-fill" /> Delete Course
+          </button>
+        </div>
+      </div>
+    </div>,
+    document.body,
+  );
+}
+
+// ── Row action menu ──────────────────────────────────────────────────────────
+function ActionMenu({ course, onDeleteRequest }) {
+  const [open, setOpen] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const btnRef = useRef(null);
+
+  const close = () => setOpen(false);
 
   const handleCopyId = () => {
     navigator.clipboard.writeText(String(course.id)).then(() => {
       setCopied(true);
       setTimeout(() => {
         setCopied(false);
-        setOpen(false);
+        close();
       }, 1200);
     });
   };
 
   const handleView = () => {
-    alert(`Viewing course: "${course.title}"`);
-    setOpen(false);
+    alert(`Viewing: "${course.title}"`);
+    close();
   };
-
   const handleEdit = () => {
-    alert(`Edit course: "${course.title}"`);
-    setOpen(false);
+    alert(`Edit: "${course.title}"`);
+    close();
   };
-
   const handleDelete = () => {
-    if (window.confirm(`Delete "${course.title}"?`)) onDelete(course.id);
-    setOpen(false);
+    close();
+    onDeleteRequest(course);
   };
 
   return (
-    <div className="oc-menu-wrap" ref={ref}>
+    <div className="oc-menu-wrap">
       <button
+        ref={btnRef}
         className={`oc-action-btn ${open ? "oc-action-btn--active" : ""}`}
         onClick={() => setOpen((p) => !p)}
         title="More options"
@@ -117,7 +195,7 @@ function ActionMenu({ course, onDelete }) {
       </button>
 
       {open && (
-        <div className="oc-dropdown">
+        <PortalMenu anchorRef={btnRef} onClose={close}>
           <p className="oc-dropdown-label">Actions</p>
 
           <button className="oc-dropdown-item" onClick={handleCopyId}>
@@ -144,19 +222,19 @@ function ActionMenu({ course, onDelete }) {
             <i className="bi bi-trash" />
             Delete Course
           </button>
-        </div>
+        </PortalMenu>
       )}
     </div>
   );
 }
 
-// ── Sortable column header ───────────────────────────────────────────────────
+// ── Sortable th ──────────────────────────────────────────────────────────────
 function SortTh({ label, sortKey, sortBy, onSort, className }) {
   const isAsc = sortBy === `${sortKey}_asc`;
   const isDesc = sortBy === `${sortKey}_desc`;
   const active = isAsc || isDesc;
 
-  const handleClick = () => {
+  const toggle = () => {
     if (!active || isDesc) onSort(`${sortKey}_asc`);
     else onSort(`${sortKey}_desc`);
   };
@@ -165,7 +243,7 @@ function SortTh({ label, sortKey, sortBy, onSort, className }) {
     <th className={`oc-th ${className || ""}`}>
       <button
         className={`oc-th-btn ${active ? "oc-th-btn--active" : ""}`}
-        onClick={handleClick}
+        onClick={toggle}
       >
         {label}
         <span className="oc-th-icons">
@@ -181,26 +259,29 @@ function SortTh({ label, sortKey, sortBy, onSort, className }) {
   );
 }
 
-// ── Main component ───────────────────────────────────────────────────────────
+// ── Main ─────────────────────────────────────────────────────────────────────
 function OurCourses({ onCreateClick }) {
-  const [courses, setCourses] = useState(coursesData);
+  const [courses, setCourses] = useState([...coursesData]);
   const [search, setSearch] = useState("");
   const [sortBy, setSortBy] = useState("default");
   const [page, setPage] = useState(1);
+  const [deletingCourse, setDeletingCourse] = useState(null);
 
-  const handleDelete = (id) => {
+  const handleDeleteConfirm = () => {
+    const id = deletingCourse.id;
     setCourses((prev) => prev.filter((c) => c.id !== id));
+    const idx = coursesData.findIndex((c) => c.id === id);
+    if (idx !== -1) coursesData.splice(idx, 1);
+    setDeletingCourse(null);
     setPage(1);
   };
 
   const filtered = useMemo(() => {
     let list = [...courses];
-
     if (search.trim()) {
       const q = search.toLowerCase();
       list = list.filter((c) => c.title.toLowerCase().includes(q));
     }
-
     if (sortBy === "title_asc")
       list.sort((a, b) => a.title.localeCompare(b.title));
     if (sortBy === "title_desc")
@@ -211,41 +292,38 @@ function OurCourses({ onCreateClick }) {
       list.sort((a, b) => Number(b.published) - Number(a.published));
     if (sortBy === "status_desc")
       list.sort((a, b) => Number(a.published) - Number(b.published));
-
     return list;
   }, [courses, search, sortBy]);
 
   const totalPages = Math.ceil(filtered.length / PAGE_SIZE);
-  const safePage = Math.min(page, totalPages || 1);
+  const safePage = Math.min(page, Math.max(totalPages, 1));
   const paginated = filtered.slice(
     (safePage - 1) * PAGE_SIZE,
     safePage * PAGE_SIZE,
   );
 
-  const handleSearch = (e) => {
-    setSearch(e.target.value);
-    setPage(1);
-  };
-  const handleSort = (val) => {
-    setSortBy(val);
-    setPage(1);
-  };
-
   return (
     <div className="oc-wrapper">
-      {/* ── Heading ─────────────────────────────────────────────────────── */}
+      {deletingCourse && (
+        <DeleteModal
+          course={deletingCourse}
+          onConfirm={handleDeleteConfirm}
+          onCancel={() => setDeletingCourse(null)}
+        />
+      )}
+
+      {/* Heading */}
       <div className="oc-heading">
         <div>
           <h1 className="oc-title">Your Courses</h1>
           <p className="oc-subtitle">Here is a list of all your courses</p>
         </div>
         <button className="oc-create-btn" onClick={onCreateClick}>
-          <i className="bi bi-plus-lg" />
-          Create Course
+          <i className="bi bi-plus-lg" /> Create Course
         </button>
       </div>
 
-      {/* ── Toolbar ─────────────────────────────────────────────────────── */}
+      {/* Search */}
       <div className="oc-toolbar">
         <div className="oc-search-wrap">
           <i className="bi bi-search oc-search-icon" />
@@ -254,7 +332,10 @@ function OurCourses({ onCreateClick }) {
             type="text"
             placeholder="Filter titles..."
             value={search}
-            onChange={handleSearch}
+            onChange={(e) => {
+              setSearch(e.target.value);
+              setPage(1);
+            }}
           />
           {search && (
             <button
@@ -270,7 +351,7 @@ function OurCourses({ onCreateClick }) {
         </div>
       </div>
 
-      {/* ── Table ───────────────────────────────────────────────────────── */}
+      {/* Table */}
       <div className="oc-table-wrap">
         <table className="oc-table">
           <thead>
@@ -279,21 +360,21 @@ function OurCourses({ onCreateClick }) {
                 label="Title"
                 sortKey="title"
                 sortBy={sortBy}
-                onSort={handleSort}
+                onSort={setSortBy}
                 className="oc-th--title"
               />
               <SortTh
                 label="Price"
                 sortKey="price"
                 sortBy={sortBy}
-                onSort={handleSort}
+                onSort={setSortBy}
                 className="oc-th--price"
               />
               <SortTh
                 label="Published"
                 sortKey="status"
                 sortBy={sortBy}
-                onSort={handleSort}
+                onSort={setSortBy}
                 className="oc-th--status"
               />
               <th className="oc-th oc-th--actions" />
@@ -322,7 +403,10 @@ function OurCourses({ onCreateClick }) {
                     </span>
                   </td>
                   <td className="oc-td oc-td--actions">
-                    <ActionMenu course={course} onDelete={handleDelete} />
+                    <ActionMenu
+                      course={course}
+                      onDeleteRequest={setDeletingCourse}
+                    />
                   </td>
                 </tr>
               ))
@@ -331,7 +415,7 @@ function OurCourses({ onCreateClick }) {
         </table>
       </div>
 
-      {/* ── Pagination ──────────────────────────────────────────────────── */}
+      {/* Pagination */}
       <div className="oc-pagination">
         <span className="oc-page-info">
           Showing {filtered.length === 0 ? 0 : (safePage - 1) * PAGE_SIZE + 1}–
