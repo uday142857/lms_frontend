@@ -166,7 +166,7 @@ function AdminInterface() {
                 <div
                   className="ai-course-row"
                   key={c.id}
-                  onClick={() => navigate(`/admin-dashboard/courses/${c.id}`)}
+                  onClick={() => navigate(`/admin-dashboard/learn/${c.id}`)}
                 >
                   <div className="ai-course-row-icon">
                     <i className="bi bi-play-circle-fill" />

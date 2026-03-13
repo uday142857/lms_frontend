@@ -7,9 +7,19 @@ function AdminSidebarNav({ onNavClick }) {
     <div className="a-nav-container">
       <NavLink to="/dashboard" className="a-nav" onClick={onNavClick}>
         <div className="a-icon">
-          <i class="bi bi-arrow-left"></i>
+          <i class="bi bi-arrow-up-left-circle"></i>
         </div>
         <span>Student Dashboard</span>
+      </NavLink>
+      <NavLink
+        to="/admin-dashboard/admin-interface"
+        className="a-nav"
+        onClick={onNavClick}
+      >
+        <div className="a-icon">
+          <i class="bi bi-arrow-left"></i>
+        </div>
+        <span>Dashboard</span>
       </NavLink>
       <NavLink
         to="/admin-dashboard/create-course"

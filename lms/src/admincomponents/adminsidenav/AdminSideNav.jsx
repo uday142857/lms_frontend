@@ -1,17 +1,20 @@
-import React from 'react'
-import "./AdminSideNav.css"
-import AdminSidebarNav from '../adminsidebarnav/AdminSidebarNav';
+import React from "react";
+import "./AdminSideNav.css";
+import { NavLink } from "react-router-dom";
+import AdminSidebarNav from "../adminsidebarnav/AdminSidebarNav";
 
-function AdminSideNav({onClose}) {
+function AdminSideNav({ onClose }) {
   return (
     <aside className="a-sidenav">
       <header className="a-side-header">
-        <div className="a-brand">
-          <h1 className="a-logo">HT</h1>
-          <h1 className="a-brand-name">
-            HorizonTrax <span className="a-brand-tag">LMS</span>
-          </h1>
-        </div>
+        <NavLink to="/admin-dashboard/admin-interface" className="admin-link" onClick={onClose}>
+          <div className="a-brand">
+            <h1 className="a-logo">HT</h1>
+            <h1 className="a-brand-name">
+              HorizonTrax <span className="a-brand-tag">LMS</span>
+            </h1>
+          </div>
+        </NavLink>
 
         <button
           className="a-sidenav-close-btn"
@@ -29,4 +32,4 @@ function AdminSideNav({onClose}) {
   );
 }
 
-export default AdminSideNav
+export default AdminSideNav;

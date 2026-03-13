@@ -8,6 +8,7 @@ import Analytics from "../../adminpages/analytics/Analytics";
 import CourseEditor from "../../adminpages/courseeditor/CourseEditor";
 import CreateMocktest from "../../adminpages/createmocktest/CreateMocktest";
 import AdminInterface from "../../adminpages/admininterface/AdminInterface";
+import CoursePlayer from "../../adminpages/courseplayer/CoursePlayer";
 
 function AdminMainSection({ sidebarOpen, onToggleSidebar, onEnterAdmin }) {
   return (
@@ -24,6 +25,7 @@ function AdminMainSection({ sidebarOpen, onToggleSidebar, onEnterAdmin }) {
         <Route path="analytics" element={<Analytics />} />
         <Route path="courses/:courseId" element={<CourseEditor />} />
         <Route path="assessment" element={<CreateMocktest />} />
+        <Route path="learn/:courseId" element={<CoursePlayer />} />
       </Routes>
     </div>
   );
