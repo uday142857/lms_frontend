@@ -1,18 +1,19 @@
-/* ── Google Font ─────────────────────────────────────────── */
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+/* ── Reset ───────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
 
 /* ── Wrapper ─────────────────────────────────────────────── */
 .ai-wrapper {
   padding: 28px 32px 48px 32px;
   background: #f1f5f9;
   min-height: 100vh;
-  box-sizing: border-box;
   font-family: 'Plus Jakarta Sans', sans-serif;
 }
 
-/* ═══════════════════════════════════════════════════════════
-   GREET CARD — professional white card with accent left border
-═══════════════════════════════════════════════════════════ */
+/* ══════════════════════════════════════════════════════════
+   GREET CARD
+══════════════════════════════════════════════════════════ */
 .ai-greet {
   display: flex;
   align-items: center;
@@ -40,27 +41,26 @@
   display: flex;
   align-items: center;
   gap: 14px;
+  min-width: 0;
 }
 .ai-greet-icon {
-  width: 44px; height: 44px;
+  width: 44px; height: 44px; flex-shrink: 0;
   border-radius: 12px;
   background: linear-gradient(135deg, #dbeafe, #bfdbfe);
   border: 1.5px solid #93c5fd;
   display: flex; align-items: center; justify-content: center;
-  font-size: 19px; color: #1d4ed8; flex-shrink: 0;
+  font-size: 19px; color: #1d4ed8;
 }
 .ai-greet-title {
   font-size: 18px; font-weight: 800;
   color: #0f172a; margin: 0 0 3px;
   letter-spacing: -0.3px;
+  white-space: nowrap;
 }
 .ai-greet-sub {
-  font-size: 12.5px;
-  color: #64748b;
-  margin: 0;
-  font-weight: 500;
+  font-size: 12.5px; color: #64748b; margin: 0; font-weight: 500;
 }
-.ai-greet-actions { display: flex; gap: 10px; }
+.ai-greet-actions { display: flex; gap: 10px; flex-shrink: 0; }
 .ai-greet-btn {
   display: flex; align-items: center; gap: 6px;
   padding: 9px 18px;
@@ -70,6 +70,7 @@
   cursor: pointer; font-family: inherit;
   transition: background 0.18s, transform 0.15s, box-shadow 0.15s;
   box-shadow: 0 2px 8px rgba(37,99,235,0.25);
+  white-space: nowrap;
 }
 .ai-greet-btn:hover {
   background: #1d4ed8;
@@ -77,20 +78,16 @@
   box-shadow: 0 4px 14px rgba(37,99,235,0.35);
 }
 .ai-greet-btn--outline {
-  background: #f8fafc;
-  color: #374151;
-  border: 1.5px solid #e2e8f0;
-  box-shadow: none;
+  background: #f8fafc; color: #374151;
+  border: 1.5px solid #e2e8f0; box-shadow: none;
 }
 .ai-greet-btn--outline:hover {
-  background: #f1f5f9;
-  border-color: #cbd5e1;
-  transform: translateY(-1px);
+  background: #f1f5f9; border-color: #cbd5e1; transform: translateY(-1px);
 }
 
-/* ═══════════════════════════════════════════════════════════
-   BODY — left + right side by side
-═══════════════════════════════════════════════════════════ */
+/* ══════════════════════════════════════════════════════════
+   BODY LAYOUT
+══════════════════════════════════════════════════════════ */
 .ai-body {
   display: grid;
   grid-template-columns: 1fr 340px;
@@ -99,13 +96,11 @@
 }
 .ai-left  { display: flex; flex-direction: column; gap: 20px; }
 .ai-right { position: sticky; top: 20px; }
-
-/* ── MOCK TEST full-width row beneath ───────────────────── */
 .ai-bottom { margin-top: 20px; }
 
-/* ═══════════════════════════════════════════════════════════
-   SHARED SECTION
-═══════════════════════════════════════════════════════════ */
+/* ══════════════════════════════════════════════════════════
+   SHARED SECTION CARD
+══════════════════════════════════════════════════════════ */
 .ai-section {
   background: #fff;
   border: 1.5px solid #e2e8f0;
@@ -113,13 +108,10 @@
   padding: 22px 24px;
   box-shadow: 0 1px 4px rgba(0,0,0,0.04), 0 4px 14px rgba(0,0,0,0.03);
 }
-
 .ai-section-hdr {
-  display: flex;
-  align-items: flex-start;
+  display: flex; align-items: flex-start;
   justify-content: space-between;
-  margin-bottom: 18px;
-  gap: 10px;
+  margin-bottom: 18px; gap: 10px;
 }
 .ai-section-title {
   font-size: 15px; font-weight: 800; color: #0f172a;
@@ -141,9 +133,9 @@
 }
 .ai-full-btn:hover { background: #eff6ff; border-color: #93c5fd; }
 
-/* ═══════════════════════════════════════════════════════════
+/* ══════════════════════════════════════════════════════════
    STAT BOXES
-═══════════════════════════════════════════════════════════ */
+══════════════════════════════════════════════════════════ */
 .ai-boxes {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -151,7 +143,6 @@
   margin-bottom: 20px;
 }
 .ai-boxes--mocktest {
-  grid-template-columns: repeat(4, 1fr);
   margin-bottom: 0;
 }
 .ai-box {
@@ -161,7 +152,6 @@
   padding: 16px 14px;
   text-align: center;
   transition: transform 0.18s, border-color 0.18s, box-shadow 0.18s;
-  cursor: default;
 }
 .ai-box:hover {
   transform: translateY(-3px);
@@ -172,38 +162,27 @@
   width: 44px; height: 44px;
   border-radius: 12px;
   display: flex; align-items: center; justify-content: center;
-  font-size: 20px;
-  margin: 0 auto 10px;
+  font-size: 20px; margin: 0 auto 10px;
 }
-.ai-box-label {
-  font-size: 11.5px; color: #64748b; font-weight: 600;
-  margin: 0 0 6px; text-align: center;
-}
-.ai-box-value {
-  font-size: 24px; font-weight: 800;
-  margin: 0; line-height: 1; text-align: center;
-}
+.ai-box-label { font-size: 11.5px; color: #64748b; font-weight: 600; margin: 0 0 6px; }
+.ai-box-value { font-size: 24px; font-weight: 800; margin: 0; line-height: 1; }
 
-/* ═══════════════════════════════════════════════════════════
+/* ══════════════════════════════════════════════════════════
    COURSE LIST ROWS
-═══════════════════════════════════════════════════════════ */
+══════════════════════════════════════════════════════════ */
 .ai-course-list { display: flex; flex-direction: column; gap: 2px; }
 .ai-course-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 10px 12px;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: background 0.15s;
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 12px; border-radius: 10px;
+  cursor: pointer; transition: background 0.15s;
 }
 .ai-course-row:hover { background: #f8fafc; }
 .ai-course-row-icon {
-  width: 34px; height: 34px;
+  width: 34px; height: 34px; flex-shrink: 0;
   border-radius: 9px;
   background: linear-gradient(135deg, #1d4ed8, #3b82f6);
   display: flex; align-items: center; justify-content: center;
-  font-size: 15px; color: #fff; flex-shrink: 0;
+  font-size: 15px; color: #fff;
 }
 .ai-course-row-info { flex: 1; min-width: 0; }
 .ai-course-row-title {
@@ -221,43 +200,33 @@
 .ai-badge--draft { background: #f1f5f9; color: #64748b; border: 1px solid #cbd5e1; }
 .ai-row-arrow { font-size: 11px; color: #cbd5e1; flex-shrink: 0; }
 
-/* ═══════════════════════════════════════════════════════════
-   ANALYTICS PANEL — RIGHT SIDE
-═══════════════════════════════════════════════════════════ */
+/* ══════════════════════════════════════════════════════════
+   ANALYTICS — RIGHT PANEL
+══════════════════════════════════════════════════════════ */
 .ai-analytics-summary {
-  display: flex;
-  align-items: center;
-  background: #f8fafc;
-  border: 1.5px solid #e2e8f0;
-  border-radius: 12px;
-  padding: 14px 20px;
+  display: flex; align-items: center;
+  background: #f8fafc; border: 1.5px solid #e2e8f0;
+  border-radius: 12px; padding: 14px 20px;
   margin-bottom: 22px;
 }
 .ai-an-num { flex: 1; text-align: center; }
-.ai-an-val {
-  font-size: 20px; font-weight: 800; color: #2563eb;
-  margin: 0 0 2px; line-height: 1;
-}
+.ai-an-val { font-size: 20px; font-weight: 800; color: #2563eb; margin: 0 0 2px; line-height: 1; }
 .ai-an-lbl { font-size: 11px; color: #94a3b8; margin: 0; font-weight: 600; }
 .ai-an-divider { width: 1px; height: 36px; background: #e2e8f0; flex-shrink: 0; }
 
-/* ── Charts ──────────────────────────────────────────────── */
 .ai-chart-label {
   font-size: 11px; font-weight: 700; color: #94a3b8;
-  text-transform: uppercase; letter-spacing: 0.6px;
-  margin: 0 0 8px;
+  text-transform: uppercase; letter-spacing: 0.6px; margin: 0 0 8px;
 }
 .ai-chart {
-  display: flex;
-  align-items: flex-end;
+  display: flex; align-items: flex-end;
   justify-content: space-between;
-  gap: 5px;
-  height: 110px;
+  gap: 5px; height: 110px;
 }
 .ai-chart-col {
-  flex: 1;
-  display: flex; flex-direction: column; align-items: center;
-  gap: 3px; height: 100%;
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; gap: 3px; height: 100%;
+  min-width: 0;
 }
 .ai-chart-val  { font-size: 9.5px; font-weight: 700; color: #059669; line-height: 1; }
 .ai-chart-track {
@@ -270,18 +239,15 @@
   transition: height 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 .ai-chart-bar--green { background: linear-gradient(180deg, #34d399, #059669); }
-
 .ai-chart-day { font-size: 9px; color: #94a3b8; font-weight: 600; }
 
-/* ── Top courses list ────────────────────────────────────── */
 .ai-top-list { display: flex; flex-direction: column; gap: 11px; }
 .ai-top-row  { display: flex; align-items: center; gap: 10px; }
 .ai-top-rank {
-  width: 20px; height: 20px; border-radius: 50%;
+  width: 20px; height: 20px; flex-shrink: 0; border-radius: 50%;
   background: #dbeafe; color: #1d4ed8;
   font-size: 10px; font-weight: 800;
   display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
 }
 .ai-top-info { flex: 1; min-width: 0; }
 .ai-top-name {
@@ -289,32 +255,163 @@
   margin: 0 0 4px;
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
-.ai-top-bar-track {
-  height: 5px; background: #f1f5f9; border-radius: 3px; overflow: hidden;
-}
+.ai-top-bar-track { height: 5px; background: #f1f5f9; border-radius: 3px; overflow: hidden; }
 .ai-top-bar-fill {
   height: 100%;
   background: linear-gradient(90deg, #1d4ed8, #3b82f6);
-  border-radius: 3px;
-  transition: width 0.7s ease;
+  border-radius: 3px; transition: width 0.7s ease;
 }
 .ai-top-rev { font-size: 12px; font-weight: 700; color: #059669; flex-shrink: 0; }
 
-/* ═══════════════════════════════════════════════════════════
-   RESPONSIVE
-═══════════════════════════════════════════════════════════ */
+/* ══════════════════════════════════════════════════════════
+   ██  RESPONSIVE
+══════════════════════════════════════════════════════════ */
+
+/* ── Large tablet  ≤ 1100px ──────────────────────────────── */
 @media (max-width: 1100px) {
-  .ai-body   { grid-template-columns: 1fr; }
-  .ai-right  { position: static; }
-  .ai-boxes  { grid-template-columns: repeat(4, 1fr); }
+  .ai-body  { grid-template-columns: 1fr; }
+  .ai-right { position: static; }
+  .ai-boxes { grid-template-columns: repeat(4, 1fr); }
 }
+
+/* ── Tablet  ≤ 768px ─────────────────────────────────────── */
 @media (max-width: 768px) {
-  .ai-wrapper { padding: 16px; }
-  .ai-greet   { padding: 14px 18px; }
-  .ai-boxes   { grid-template-columns: repeat(2, 1fr); }
+  .ai-wrapper {
+    padding: 14px 14px 40px;
+  }
+
+  /* Greet card */
+  .ai-greet {
+    padding: 14px 16px 14px 20px;   /* extra left so left-border shows */
+    gap: 12px;
+    border-radius: 12px;
+    margin-bottom: 16px;
+  }
+  .ai-greet-pill { gap: 10px; }
+  .ai-greet-icon { width: 38px; height: 38px; font-size: 16px; border-radius: 10px; }
+  .ai-greet-title { font-size: 15px; white-space: normal; }
+  .ai-greet-sub   { font-size: 12px; }
+  .ai-greet-actions { width: 100%; gap: 8px; }
+  .ai-greet-btn {
+    flex: 1; justify-content: center;
+    padding: 8px 12px; font-size: 12.5px;
+  }
+
+  /* Section card */
+  .ai-section { padding: 16px 14px; border-radius: 12px; }
+  .ai-section-hdr { margin-bottom: 14px; }
+  .ai-section-title { font-size: 13.5px; }
+  .ai-section-sub   { font-size: 11px; }
+  .ai-full-btn { padding: 5px 10px; font-size: 11.5px; }
+
+  /* Stat boxes — 2 per row */
+  .ai-boxes { grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 16px; }
+  .ai-box   { padding: 14px 10px; border-radius: 10px; }
+  .ai-box-icon  { width: 38px; height: 38px; font-size: 17px; border-radius: 10px; margin-bottom: 8px; }
+  .ai-box-label { font-size: 11px; }
+  .ai-box-value { font-size: 20px; }
+
+  /* Course rows */
+  .ai-course-row { padding: 9px 8px; gap: 10px; }
+  .ai-course-row-title { font-size: 12.5px; }
+
+  /* Chart — reduce height, smaller font */
+  .ai-chart { height: 90px; gap: 3px; }
+  .ai-chart-val { font-size: 8.5px; }
+  .ai-chart-day { font-size: 8px; }
+  .ai-chart-track { max-width: 22px; }
+
+  /* Analytics summary */
+  .ai-analytics-summary { padding: 12px 14px; }
+  .ai-an-val { font-size: 17px; }
+  .ai-an-lbl { font-size: 10px; }
+
+  /* Top list */
+  .ai-top-name { font-size: 11px; }
+  .ai-top-rev  { font-size: 11.5px; }
+
+  /* Body / bottom */
+  .ai-body   { gap: 14px; }
+  .ai-bottom { margin-top: 14px; }
 }
+
+/* ── Mobile  ≤ 480px ─────────────────────────────────────── */
 @media (max-width: 480px) {
-  .ai-greet-actions { width: 100%; }
-  .ai-greet-btn     { flex: 1; justify-content: center; }
-  .ai-boxes         { grid-template-columns: repeat(2, 1fr); }
+  .ai-wrapper { padding: 10px 10px 36px; }
+
+  /* Greet */
+  .ai-greet { padding: 12px 12px 12px 18px; border-radius: 10px; margin-bottom: 12px; }
+  .ai-greet-title { font-size: 14px; }
+  .ai-greet-icon  { width: 34px; height: 34px; font-size: 14px; }
+  .ai-greet-btn   { padding: 7px 10px; font-size: 12px; gap: 4px; }
+
+  /* Section */
+  .ai-section { padding: 14px 12px; border-radius: 10px; }
+  .ai-section-hdr { flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+  .ai-full-btn { font-size: 11px; padding: 5px 9px; }
+
+  /* Stat boxes — still 2 per row but smaller */
+  .ai-boxes { gap: 8px; margin-bottom: 12px; }
+  .ai-box   { padding: 12px 8px; border-radius: 10px; }
+  .ai-box-icon  { width: 34px; height: 34px; font-size: 15px; border-radius: 8px; margin-bottom: 6px; }
+  .ai-box-label { font-size: 10.5px; margin-bottom: 4px; }
+  .ai-box-value { font-size: 18px; }
+
+  /* Course rows — hide arrow, tighten padding */
+  .ai-course-row { padding: 8px 6px; gap: 8px; }
+  .ai-course-row-icon { width: 30px; height: 30px; font-size: 13px; border-radius: 8px; }
+  .ai-course-row-title { font-size: 12px; }
+  .ai-course-row-price { font-size: 10.5px; }
+  .ai-row-arrow { display: none; }
+
+  /* Badges */
+  .ai-badge { font-size: 10px; padding: 2px 7px; }
+
+  /* Chart — compact, smaller bars */
+  .ai-chart { height: 80px; gap: 2px; }
+  .ai-chart-val { font-size: 8px; }
+  .ai-chart-day { font-size: 7.5px; }
+  .ai-chart-track { max-width: 18px; }
+
+  /* Analytics summary */
+  .ai-analytics-summary { padding: 10px 12px; margin-bottom: 16px; }
+  .ai-an-val { font-size: 15px; }
+  .ai-an-lbl { font-size: 9.5px; }
+  .ai-an-divider { height: 28px; }
+
+  /* Top list */
+  .ai-top-list { gap: 9px; }
+  .ai-top-name { font-size: 10.5px; }
+  .ai-top-rev  { font-size: 11px; }
+  .ai-top-rank { width: 18px; height: 18px; font-size: 9px; }
+
+  /* Layout gaps */
+  .ai-body   { gap: 10px; }
+  .ai-bottom { margin-top: 10px; }
+
+  /* chart label */
+  .ai-chart-label { font-size: 10px; letter-spacing: 0.4px; }
+}
+
+/* ── Very small  ≤ 360px ─────────────────────────────────── */
+@media (max-width: 360px) {
+  .ai-wrapper { padding: 8px 8px 32px; }
+  .ai-greet   { padding: 10px 10px 10px 16px; }
+  .ai-greet-title { font-size: 13px; }
+  .ai-greet-sub   { display: none; }
+  .ai-greet-btn   { font-size: 11.5px; padding: 7px 8px; }
+
+  /* Boxes even smaller */
+  .ai-box-value { font-size: 16px; }
+  .ai-box-label { font-size: 10px; }
+  .ai-box       { padding: 10px 6px; }
+
+  /* Chart */
+  .ai-chart { height: 70px; }
+  .ai-chart-track { max-width: 14px; }
+  .ai-chart-val { display: none; }  /* hide values, too cramped */
+
+  /* Top list - truncate harder */
+  .ai-top-name { font-size: 10px; }
+  .ai-top-rev  { font-size: 10.5px; }
 }
