@@ -545,3 +545,15 @@
   .oc-modal { padding: 28px 20px 22px; }
   .oc-modal-actions { flex-direction: column; }
 }
+
+/* ── Teacher name ── */
+.oc-card-teacher {
+  font-size: 12px; color: #64748b; font-weight: 500;
+  margin: 0 0 8px; display: flex; align-items: center; gap: 4px;
+}
+.oc-card-teacher i { font-size: 11px; color: #94a3b8; }
+
+/* ── Free label ── */
+.oc-free-label {
+  font-size: 14px; font-weight: 700; color: #16a34a;
+}

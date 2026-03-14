@@ -1,10 +1,17 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { coursesData, getGradient, getInitials } from "../../data/Lmsdata";
 import "./LearnSection.css";
+
+// Top 7 published courses sorted by students descending
+const popularCourses = [...coursesData]
+  .filter((c) => c.published)
+  .sort((a, b) => b.students - a.students)
+  .slice(0, 7);
 
 function LearnSection() {
   const navigate = useNavigate();
-  const watch = (slug) => navigate(`/watch/${slug}`);
+  const watch = (id) => navigate(`/learn/${id}`);
 
   return (
     <div className="learn-main">
@@ -19,181 +26,56 @@ function LearnSection() {
               View
             </span>
           </div>
+
           <div className="video-container">
-            <div
-              className="video-box"
-              style={{ cursor: "pointer" }}
-              onClick={() => watch("mern-full-stack")}
-            >
-              <div className="video-image-box">
-                <div className="video-image">
-                  <img
-                    className="pop-thumb-img"
-                    src="https://media.geeksforgeeks.org/wp-content/uploads/20260109133438044849/Full-Stack-Development.png"
-                    alt="MERN"
-                  />
+            {popularCourses.map((course) => (
+              <div
+                key={course.id}
+                className="video-box"
+                style={{ cursor: "pointer" }}
+                onClick={() => watch(course.id)}
+              >
+                <div className="video-image-box">
+                  <div className="video-image">
+                    {course.thumb ? (
+                      <img
+                        className="pop-thumb-img"
+                        src={course.thumb}
+                        alt={course.title}
+                      />
+                    ) : (
+                      <div
+                        className="pop-thumb-img"
+                        style={{
+                          background: getGradient(course.category),
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          fontSize: "26px",
+                          fontWeight: "700",
+                          color: "#fff",
+                          fontFamily: "Syne, sans-serif",
+                          width: "100%",
+                          height: "100%",
+                        }}
+                      >
+                        {getInitials(course.title)}
+                      </div>
+                    )}
+                  </div>
+                </div>
+                <div className="video-description">
+                  <div>
+                    <p>{course.category}</p>
+                    <h3>{course.title}</h3>
+                  </div>
+                  <div className="users-quantity">
+                    <span>Users</span>
+                    <h4>{course.students.toLocaleString()}</h4>
+                  </div>
                 </div>
               </div>
-              <div className="video-description">
-                <div>
-                  <p>Software Development</p>
-                  <h3>MERN Full Stack Development</h3>
-                </div>
-                <div className="users-quantity">
-                  <span>Users</span>
-                  <h4>20</h4>
-                </div>
-              </div>
-            </div>
-            <div
-              className="video-box"
-              style={{ cursor: "pointer" }}
-              onClick={() => watch("flutter-react-native")}
-            >
-              <div className="video-image-box">
-                <div className="video-image">
-                  <img
-                    className="pop-thumb-img"
-                    src="https://www.moweb.com/blog/wp-content/uploads/2024/09/A-Comprehensive-Guide-For-Flutter-vs-React-Native.png"
-                    alt="React Native / Flutter"
-                  />
-                </div>
-              </div>
-              <div className="video-description">
-                <div>
-                  <p>Software Development</p>
-                  <h3>Mobile App Development with React Native / Flutter</h3>
-                </div>
-                <div className="users-quantity">
-                  <span>Users</span>
-                  <h4>17</h4>
-                </div>
-              </div>
-            </div>
-            <div
-              className="video-box"
-              style={{ cursor: "pointer" }}
-              onClick={() => watch("python-beginners")}
-            >
-              <div className="video-image-box">
-                <div className="video-image">
-                  <img
-                    className="pop-thumb-img"
-                    src="https://i.pinimg.com/736x/8d/ce/be/8dcebedf391f14ac629a9c51d944e990.jpg"
-                    alt="Python Programming"
-                  />
-                </div>
-              </div>
-              <div className="video-description">
-                <div>
-                  <p>Software Development</p>
-                  <h3>Python Programming for Beginners</h3>
-                </div>
-                <div className="users-quantity">
-                  <span>Users</span>
-                  <h4>17</h4>
-                </div>
-              </div>
-            </div>
-            <div
-              className="video-box"
-              style={{ cursor: "pointer" }}
-              onClick={() => watch("machine-learning-deeplearning")}
-            >
-              <div className="video-image-box">
-                <div className="video-image">
-                  <img
-                    className="pop-thumb-img"
-                    src="https://static.vecteezy.com/system/resources/thumbnails/038/258/133/small_2x/machine-learning-ai-artificial-intelligence-deep-learning-data-mining-big-data-algorithm-neural-network-concept-on-virtual-screen-wireframe-hand-touching-digital-interface-illustration-vector.jpg"
-                    alt="Machine Learning by DeepLearning.A"
-                  />
-                </div>
-              </div>
-              <div className="video-description">
-                <div>
-                  <p>Machine Learning (ML)</p>
-                  <h3>Machine Learning by DeepLearning.AI</h3>
-                </div>
-                <div className="users-quantity">
-                  <span>Users</span>
-                  <h4>15</h4>
-                </div>
-              </div>
-            </div>
-            <div
-              className="video-box"
-              style={{ cursor: "pointer" }}
-              onClick={() => watch("aws-machine-learning")}
-            >
-              <div className="video-image-box">
-                <div className="video-image">
-                  <img
-                    className="pop-thumb-img"
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQ2lkbeJ4e19BnEyN2zVAklk-t8FZOEXXvfg&s"
-                  />
-                </div>
-              </div>
-              <div className="video-description">
-                <div>
-                  <p>Machine Learning (ML)</p>
-                  <h3>AWS Machine Learning Nanodegree</h3>
-                </div>
-                <div className="users-quantity">
-                  <span>Users</span>
-                  <h4>13</h4>
-                </div>
-              </div>
-            </div>
-            <div
-              className="video-box"
-              style={{ cursor: "pointer" }}
-              onClick={() => watch("generative-ai-prompt-engineering")}
-            >
-              <div className="video-image-box">
-                <div className="video-image">
-                  <img
-                    className="pop-thumb-img"
-                    src="https://storage.googleapis.com/garranto-academy-sgwd/course-img/sg/promt-engineering-ai.jpeg"
-                    alt="AI"
-                  />
-                </div>
-              </div>
-              <div className="video-description">
-                <div>
-                  <p>Artificial Intelligence</p>
-                  <h3>Generative AI &amp; Prompt Engineering</h3>
-                </div>
-                <div className="users-quantity">
-                  <span>Users</span>
-                  <h4>10</h4>
-                </div>
-              </div>
-            </div>
-            <div
-              className="video-box"
-              style={{ cursor: "pointer" }}
-              onClick={() => watch("intro-artificial-intelligence")}
-            >
-              <div className="video-image-box">
-                <div className="video-image">
-                  <img
-                    className="pop-thumb-img"
-                    src="https://d1csarkz8obe9u.cloudfront.net/posterpreviews/artificial-intelligence-ai-thumbnail-youtub-design-template-eb5c61bbccfcd1df53ab8533054f6ddb_screen.jpg?ts=1686266063"
-                    alt="Intro AI"
-                  />
-                </div>
-              </div>
-              <div className="video-description">
-                <div>
-                  <p>Artificial Intelligence</p>
-                  <h3>Introduction to Artificial Intelligence (AI)</h3>
-                </div>
-                <div className="users-quantity">
-                  <span>Users</span>
-                  <h4>3</h4>
-                </div>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </div>

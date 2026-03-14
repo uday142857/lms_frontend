@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { coursesData } from "../ourcourses/OurCourses";
+import { coursesData } from "../../data/Lmsdata";
 import "./AdminInterface.css";
 
 // ── Stat box data ─────────────────────────────────────────────────────────────
@@ -114,7 +114,7 @@ function AdminInterface() {
           </button>
           <button
             className="ai-greet-btn ai-greet-btn--outline"
-            onClick={() => navigate("/admin-dashboard/create-mocktest")}
+            onClick={() => navigate("/admin-dashboard/assessment")}
           >
             <i className="bi bi-journal-plus" /> New Test
           </button>

@@ -11,6 +11,7 @@ import PopularVideos from "../popularvideos/PopularVideos";
 import Certificate from "../certificate/Certificate";
 import OverallReport from "../overallreport/OverallReport";
 import LandingPage from "../landingpage/LandingPage";
+import UserCoursePlayer from "../usercourseplayer/UserCoursePlayer";
 
 function MainSection({ sidebarOpen, onToggleSidebar, onEnterAdmin }) {
   return (
@@ -31,6 +32,7 @@ function MainSection({ sidebarOpen, onToggleSidebar, onEnterAdmin }) {
         <Route path="/popular-videos" element={<PopularVideos />} />
         <Route path="/certificate" element={<Certificate />} />
         <Route path="/overallreport" element={<OverallReport />} />
+        <Route path="/learn/:courseId" element={<UserCoursePlayer />} />
       </Routes>
     </div>
   );

@@ -202,7 +202,7 @@
 
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { coursesData } from "../ourcourses/OurCourses";
+import { coursesData } from "../../data/Lmsdata";
 import "./CreateCourses.css";
 
 function CreateCourses() {

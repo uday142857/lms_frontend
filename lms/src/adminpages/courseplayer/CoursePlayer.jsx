@@ -1,264 +1,53 @@
-import React, { useState, useRef, useEffect, useCallback } from "react";
+import React, {
+  useState,
+  useRef,
+  useEffect,
+  useCallback,
+  useMemo,
+} from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { coursesData, getGradient, getInitials } from "../../data/Lmsdata";
 import "./CoursePlayer.css";
 
-// ── ALL 15 courses info ───────────────────────────────────────────────────────
-const COURSES_INFO = {
-  1: {
-    title: "Responsible AI Practices",
-    instructor: "Dr. Rahul Kiran",
-    rating: 4.8,
-    students: 3420,
-    category: "AI & Ethics",
-  },
-  2: {
-    title: "Ethics in Artificial Intelligence",
-    instructor: "Prof. Anita Sharma",
-    rating: 4.7,
-    students: 2180,
-    category: "AI & Ethics",
-  },
-  3: {
-    title: "Foundations of Computer Vision",
-    instructor: "Dr. Vikram Nair",
-    rating: 4.6,
-    students: 1950,
-    category: "Computer Vision",
-  },
-  4: {
-    title: "AI Fundamentals & Applications",
-    instructor: "Dr. Priya Menon",
-    rating: 4.9,
-    students: 4210,
-    category: "AI Basics",
-  },
-  5: {
-    title: "Introduction to Machine Learning",
-    instructor: "Prof. Suresh Babu",
-    rating: 4.8,
-    students: 5100,
-    category: "Machine Learning",
-  },
-  6: {
-    title: "AI Fluency Teaching Frameworks",
-    instructor: "Dr. Kavya Reddy",
-    rating: 4.5,
-    students: 1340,
-    category: "Education",
-  },
-  7: {
-    title: "AI Readiness for Educators",
-    instructor: "Dr. Anjali Das",
-    rating: 4.4,
-    students: 980,
-    category: "Education",
-  },
-  8: {
-    title: "Student AI Readiness Course",
-    instructor: "Mr. Rohit Pillai",
-    rating: 4.7,
-    students: 6730,
-    category: "AI Basics",
-  },
-  9: {
-    title: "AI Fluency – Core Principles",
-    instructor: "Dr. Meera Joshi",
-    rating: 4.6,
-    students: 2890,
-    category: "AI Basics",
-  },
-  10: {
-    title: "Understanding AI",
-    instructor: "Prof. Arjun Kumar",
-    rating: 4.5,
-    students: 8920,
-    category: "AI Basics",
-  },
-  11: {
-    title: "Deep Learning Fundamentals",
-    instructor: "Dr. Sneha Patel",
-    rating: 4.8,
-    students: 0,
-    category: "Deep Learning",
-  },
-  12: {
-    title: "Natural Language Processing",
-    instructor: "Prof. Ravi Verma",
-    rating: 4.7,
-    students: 1670,
-    category: "NLP",
-  },
-  13: {
-    title: "Data Science with Python",
-    instructor: "Dr. Pooja Singh",
-    rating: 4.8,
-    students: 4450,
-    category: "Data Science",
-  },
-  14: {
-    title: "Computer Vision Advanced",
-    instructor: "Dr. Karan Mehta",
-    rating: 4.9,
-    students: 0,
-    category: "Computer Vision",
-  },
-  15: {
-    title: "Reinforcement Learning Basics",
-    instructor: "Prof. Lakshmi Rao",
-    rating: 4.6,
-    students: 2030,
-    category: "Machine Learning",
-  },
-};
+// ── Build lesson sections from chapters ───────────────────────────────────────
+// Groups chapters by their `section` field (set in CourseEditor).
+// Chapters without a section all go into "Course Content".
+function buildSectionsFromCourse(course) {
+  if (!course) return [];
+  const chapters = course.chapters || [];
+  if (chapters.length === 0) return [];
 
-// ── Build sections dynamically for any course ─────────────────────────────────
-function buildSections(courseId, title) {
-  const id = parseInt(courseId, 10);
-  return [
-    {
-      id: `${id}-s1`,
-      title: "Getting Started",
-      expanded: true,
-      lessons: [
-        {
-          id: `${id}-l1`,
-          title: "Welcome to the Course",
-          duration: "3:24",
-          type: "video",
-          completed: true,
-          videoUrl: "",
-        },
-        {
-          id: `${id}-l2`,
-          title: "Course Overview & Roadmap",
-          duration: "8:12",
-          type: "video",
-          completed: true,
-          videoUrl: "",
-        },
-        {
-          id: `${id}-l3`,
-          title: "Setting Up Your Environment",
-          duration: "12:05",
-          type: "video",
-          completed: false,
-          videoUrl: "",
-        },
-      ],
-    },
-    {
-      id: `${id}-s2`,
-      title: "Core Concepts",
-      expanded: true,
-      lessons: [
-        {
-          id: `${id}-l4`,
-          title: `Introduction to ${title}`,
-          duration: "15:30",
-          type: "video",
-          completed: false,
-          videoUrl: "",
-        },
-        {
-          id: `${id}-l5`,
-          title: "Key Principles & Foundations",
-          duration: "11:45",
-          type: "video",
-          completed: false,
-          videoUrl: "",
-        },
-        {
-          id: `${id}-l6`,
-          title: "Practical Examples & Demos",
-          duration: "18:20",
-          type: "video",
-          completed: false,
-          videoUrl: "",
-        },
-        {
-          id: `${id}-l7`,
-          title: "Module Quiz",
-          duration: "10 Qs",
-          type: "quiz",
-          completed: false,
-          videoUrl: "",
-        },
-      ],
-    },
-    {
-      id: `${id}-s3`,
-      title: "Advanced Topics",
-      expanded: false,
-      lessons: [
-        {
-          id: `${id}-l8`,
-          title: "Deep Dive — Part 1",
-          duration: "22:10",
-          type: "video",
-          completed: false,
-          videoUrl: "",
-        },
-        {
-          id: `${id}-l9`,
-          title: "Deep Dive — Part 2",
-          duration: "19:55",
-          type: "video",
-          completed: false,
-          videoUrl: "",
-        },
-        {
-          id: `${id}-l10`,
-          title: "Real-World Case Study",
-          duration: "25:00",
-          type: "video",
-          completed: false,
-          videoUrl: "",
-        },
-        {
-          id: `${id}-l11`,
-          title: "Advanced Assessment",
-          duration: "15 Qs",
-          type: "quiz",
-          completed: false,
-          videoUrl: "",
-        },
-      ],
-    },
-    {
-      id: `${id}-s4`,
-      title: "Final Project & Wrap-up",
-      expanded: false,
-      lessons: [
-        {
-          id: `${id}-l12`,
-          title: "Project Brief & Guidelines",
-          duration: "8:00",
-          type: "video",
-          completed: false,
-          videoUrl: "",
-        },
-        {
-          id: `${id}-l13`,
-          title: "Final Project Submission",
-          duration: "—",
-          type: "project",
-          completed: false,
-          videoUrl: "",
-        },
-        {
-          id: `${id}-l14`,
-          title: "Course Wrap-up & Next Steps",
-          duration: "5:30",
-          type: "video",
-          completed: false,
-          videoUrl: "",
-        },
-      ],
-    },
-  ];
+  const sectionMap = new Map(); // preserves insertion order
+
+  chapters.forEach((ch) => {
+    const secName =
+      ch.section && ch.section.trim() ? ch.section.trim() : "Course Content";
+    if (!sectionMap.has(secName)) sectionMap.set(secName, []);
+    sectionMap.get(secName).push(ch);
+  });
+
+  let sIdx = 0;
+  const sections = [];
+  sectionMap.forEach((chs, secName) => {
+    sections.push({
+      id: `s-${sIdx}`,
+      title: secName,
+      expanded: sIdx === 0,
+      lessons: chs.map((ch) => ({
+        id: String(ch.id),
+        title: ch.title,
+        duration: ch.duration || "—",
+        type: "video",
+        completed: false,
+        videoUrl: ch.videoUrl || "",
+        isFree: ch.isFree ?? false,
+      })),
+    });
+    sIdx++;
+  });
+  return sections;
 }
 
-// ── Helpers ───────────────────────────────────────────────────────────────────
 const flatLessons = (secs) => secs.flatMap((s) => s.lessons);
 const countDone = (secs) => flatLessons(secs).filter((l) => l.completed).length;
 const fmtTime = (s) => {
@@ -287,7 +76,6 @@ function VideoPlayer({ lesson, onComplete }) {
 
   const SPEEDS = [0.5, 0.75, 1, 1.25, 1.5, 1.75, 2];
 
-  // Reset state on lesson change
   useEffect(() => {
     setPlaying(false);
     setCurrent(0);
@@ -300,7 +88,6 @@ function VideoPlayer({ lesson, onComplete }) {
     clearTimeout(hideRef.current);
     hideRef.current = setTimeout(() => setShowCtrl(false), 3000);
   }, []);
-
   useEffect(() => () => clearTimeout(hideRef.current), []);
 
   const togglePlay = () => {
@@ -316,32 +103,27 @@ function VideoPlayer({ lesson, onComplete }) {
       reveal();
     }
   };
-
   const seek = (e) => {
     const v = vidRef.current;
     if (!v || !dur) return;
     const r = e.currentTarget.getBoundingClientRect();
     v.currentTime = ((e.clientX - r.left) / r.width) * dur;
   };
-
   const skip = (s) => {
     const v = vidRef.current;
     if (v) v.currentTime = Math.min(Math.max(0, v.currentTime + s), dur);
   };
-
   const onVolChange = (e) => {
     const val = parseFloat(e.target.value);
     setVol(val);
     setMuted(val === 0);
     if (vidRef.current) vidRef.current.volume = val;
   };
-
   const toggleMute = () => {
     const n = !muted;
     setMuted(n);
     if (vidRef.current) vidRef.current.muted = n;
   };
-
   const toggleFull = () => {
     if (!document.fullscreenElement) {
       wrapRef.current?.requestFullscreen();
@@ -351,7 +133,6 @@ function VideoPlayer({ lesson, onComplete }) {
       setFull(false);
     }
   };
-
   const applySpeed = (s) => {
     if (vidRef.current) vidRef.current.playbackRate = s;
     setSpeed(s);
@@ -376,7 +157,6 @@ function VideoPlayer({ lesson, onComplete }) {
       }}
       onClick={togglePlay}
     >
-      {/* ── Video or placeholder ── */}
       {lesson.videoUrl ? (
         <video
           ref={vidRef}
@@ -408,20 +188,17 @@ function VideoPlayer({ lesson, onComplete }) {
             </div>
             <p className="vp-ph-title">{lesson.title}</p>
             <p className="vp-ph-hint">
-              Add a video URL to this lesson to enable playback
+              Add a video URL in the Course Editor to enable playback
             </p>
           </div>
         </div>
       )}
 
-      {/* ── Centre flash ── */}
       <div className={`vp-flash ${!playing ? "vp-flash--show" : ""}`}>
         <i className={`bi ${playing ? "bi-pause-fill" : "bi-play-fill"}`} />
       </div>
 
-      {/* ── Controls overlay ── */}
       <div className="vp-controls" onClick={(e) => e.stopPropagation()}>
-        {/* Seekbar */}
         <div className="vp-seekbar" onClick={seek}>
           <div className="vp-seek-track">
             <div className="vp-seek-buf" style={{ width: `${bufPct}%` }} />
@@ -430,8 +207,6 @@ function VideoPlayer({ lesson, onComplete }) {
             </div>
           </div>
         </div>
-
-        {/* Bottom row */}
         <div className="vp-row">
           <div className="vp-row-l">
             <button className="vp-icn" onClick={togglePlay}>
@@ -463,7 +238,6 @@ function VideoPlayer({ lesson, onComplete }) {
               {fmtTime(current)} / {fmtTime(dur)}
             </span>
           </div>
-
           <div className="vp-row-r">
             <div className="vp-spd-wrap">
               <button
@@ -499,58 +273,101 @@ function VideoPlayer({ lesson, onComplete }) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// MAIN PAGE
+// EMPTY COURSE STATE
+// ─────────────────────────────────────────────────────────────────────────────
+function EmptyCoursePage({ course, navigate }) {
+  const grad = getGradient(course.category);
+  return (
+    <div className="cp-empty-page">
+      <div className="cp-empty-thumb" style={{ background: grad }}>
+        <span className="cp-empty-initials">{getInitials(course.title)}</span>
+      </div>
+      <h2 className="cp-empty-title">{course.title}</h2>
+      <p className="cp-empty-sub">This course has no chapters yet.</p>
+      <button
+        className="cp-empty-btn"
+        onClick={() => navigate(`/admin-dashboard/courses/${course.id}`)}
+      >
+        <i className="bi bi-plus-lg" /> Add Chapters in Course Editor
+      </button>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// MAIN COMPONENT
 // ─────────────────────────────────────────────────────────────────────────────
 export default function CoursePlayer() {
   const { courseId } = useParams();
   const navigate = useNavigate();
 
-  // Parse courseId — works for every id (1–15 and beyond)
-  const numId = parseInt(courseId, 10);
-  const info = COURSES_INFO[numId] || {
-    title: `Course ${numId}`,
-    instructor: "Instructor",
-    rating: 4.5,
-    students: 0,
-    category: "Course",
-  };
+  const course =
+    coursesData.find((c) => String(c.id) === String(courseId)) || null;
 
   const [sections, setSections] = useState(() =>
-    buildSections(numId, info.title),
+    course ? buildSectionsFromCourse(course) : [],
   );
-  const [activeLesson, setActiveLesson] = useState(
-    () => buildSections(numId, info.title)[0].lessons[0],
-  );
+  const [activeLesson, setActiveLesson] = useState(() => {
+    const secs = course ? buildSectionsFromCourse(course) : [];
+    return flatLessons(secs)[0] || null;
+  });
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [activeTab, setActiveTab] = useState("overview");
+  const notesQuillRef = useRef(null);
 
-  // KEY FIX: re-init everything when courseId changes in the URL
+  // Re-init on courseId change
   useEffect(() => {
-    const nId = parseInt(courseId, 10);
-    const nInfo = COURSES_INFO[nId] || {
-      title: `Course ${nId}`,
-      instructor: "Instructor",
-      rating: 4.5,
-      students: 0,
-    };
-    const secs = buildSections(nId, nInfo.title);
+    const c =
+      coursesData.find((c) => String(c.id) === String(courseId)) || null;
+    const secs = c ? buildSectionsFromCourse(c) : [];
     setSections(secs);
-    setActiveLesson(secs[0].lessons[0]);
+    setActiveLesson(flatLessons(secs)[0] || null);
     setActiveTab("overview");
+    notesQuillRef.current = null;
   }, [courseId]);
 
-  const allLessons = flatLessons(sections);
-  const done = countDone(sections);
+  // Notes Quill init
+  useEffect(() => {
+    if (activeTab !== "notes" || total === 0) return;
+    const tryInit = () => {
+      if (typeof window.Quill === "undefined") {
+        setTimeout(tryInit, 80);
+        return;
+      }
+      const el = document.getElementById("cp-notes-editor");
+      if (!el || notesQuillRef.current) return;
+      notesQuillRef.current = new window.Quill(el, {
+        theme: "snow",
+        placeholder: "Jot down your notes, key takeaways, questions...",
+        modules: {
+          toolbar: [
+            ["bold", "italic", "underline"],
+            [{ list: "ordered" }, { list: "bullet" }],
+            ["blockquote", "link"],
+            ["clean"],
+          ],
+        },
+      });
+    };
+    setTimeout(tryInit, 50);
+    return () => {
+      notesQuillRef.current = null;
+    };
+  }, [activeTab]); // eslint-disable-line
+
+  const allLessons = useMemo(() => flatLessons(sections), [sections]);
+  const done = useMemo(() => countDone(sections), [sections]);
   const total = allLessons.length;
-  const pct = Math.round((done / total) * 100);
-  const curIdx = allLessons.findIndex((l) => l.id === activeLesson.id);
+  const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+  const curIdx = activeLesson
+    ? allLessons.findIndex((l) => l.id === activeLesson.id)
+    : -1;
   const prevL = curIdx > 0 ? allLessons[curIdx - 1] : null;
   const nextL = curIdx < total - 1 ? allLessons[curIdx + 1] : null;
 
   const selectLesson = (l) => {
     if (l.type === "video") setActiveLesson(l);
   };
-
   const markDone = (lessonId) => {
     setSections((prev) =>
       prev.map((s) => ({
@@ -561,22 +378,56 @@ export default function CoursePlayer() {
       })),
     );
   };
-
   const toggleSec = (sId) =>
     setSections((prev) =>
       prev.map((s) => (s.id === sId ? { ...s, expanded: !s.expanded } : s)),
     );
 
-  const typeIcon = (t) =>
-    t === "quiz"
-      ? "bi-patch-question-fill"
-      : t === "project"
-        ? "bi-folder-fill"
-        : "bi-play-circle-fill";
+  const hasThumb = !!course?.thumb;
+  const courseGrad = course ? getGradient(course.category) : "#2563eb";
+
+  // Course not found
+  if (!course) {
+    return (
+      <div className="cp-root">
+        <header className="cp-nav">
+          <div className="cp-nav-l">
+            <button className="cp-back" onClick={() => navigate(-1)}>
+              <i className="bi bi-arrow-left" />
+            </button>
+            <div className="cp-brand">
+              <span className="cp-brand-logo">HT</span>
+              <span className="cp-brand-text">
+                HorizonTrax <b>LMS</b>
+              </span>
+            </div>
+          </div>
+        </header>
+        <div className="cp-empty-page">
+          <i
+            className="bi bi-exclamation-circle"
+            style={{
+              fontSize: 48,
+              color: "#bfdbfe",
+              display: "block",
+              marginBottom: 16,
+            }}
+          />
+          <h2 className="cp-empty-title">Course not found</h2>
+          <p className="cp-empty-sub">
+            This course doesn't exist or was removed.
+          </p>
+          <button className="cp-empty-btn" onClick={() => navigate(-1)}>
+            Go Back
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="cp-root">
-      {/* ════ NAV ════ */}
+      {/* ── NAV ── */}
       <header className="cp-nav">
         <div className="cp-nav-l">
           <button className="cp-back" onClick={() => navigate(-1)}>
@@ -589,16 +440,20 @@ export default function CoursePlayer() {
             </span>
           </div>
           <div className="cp-nav-divider" />
-          <span className="cp-nav-coursetitle">{info.title}</span>
+          <span className="cp-nav-coursetitle">{course.title}</span>
         </div>
-
         <div className="cp-nav-r">
-          <div className="cp-nav-progress">
-            <div className="cp-nav-prog-track">
-              <div className="cp-nav-prog-fill" style={{ width: `${pct}%` }} />
+          {total > 0 && (
+            <div className="cp-nav-progress">
+              <div className="cp-nav-prog-track">
+                <div
+                  className="cp-nav-prog-fill"
+                  style={{ width: `${pct}%` }}
+                />
+              </div>
+              <span className="cp-nav-pct">{pct}% complete</span>
             </div>
-            <span className="cp-nav-pct">{pct}% complete</span>
-          </div>
+          )}
           <button
             className={`cp-content-toggle ${sidebarOpen ? "active" : ""}`}
             onClick={() => setSidebarOpen((p) => !p)}
@@ -608,198 +463,268 @@ export default function CoursePlayer() {
         </div>
       </header>
 
-      {/* ════ BODY ════ */}
+      {/* ── BODY ── */}
       <div className={`cp-body ${sidebarOpen ? "with-sidebar" : ""}`}>
-        {/* ── Main column ── */}
+        {/* Main column */}
         <div className="cp-main">
-          {/* Player */}
-          <div className="cp-player-box">
-            <VideoPlayer
-              lesson={activeLesson}
-              onComplete={() => markDone(activeLesson.id)}
-            />
-          </div>
-
-          {/* Lesson nav bar */}
-          <div className="cp-lbar">
-            <button
-              className="cp-lbar-btn"
-              disabled={!prevL}
-              onClick={() => prevL && selectLesson(prevL)}
-            >
-              <i className="bi bi-chevron-left" /> Previous
-            </button>
-
-            <div className="cp-lbar-center">
-              <span className="cp-lbar-name">{activeLesson.title}</span>
-              <button
-                className={`cp-mark-btn ${activeLesson.completed ? "cp-mark-btn--done" : ""}`}
-                onClick={() => markDone(activeLesson.id)}
-              >
-                {activeLesson.completed ? (
-                  <>
-                    <i className="bi bi-check-circle-fill" /> Completed
-                  </>
+          {total === 0 ? (
+            <EmptyCoursePage course={course} navigate={navigate} />
+          ) : (
+            <>
+              {/* Video */}
+              <div className="cp-player-box">
+                {activeLesson ? (
+                  <VideoPlayer
+                    lesson={activeLesson}
+                    onComplete={() => markDone(activeLesson.id)}
+                  />
                 ) : (
-                  <>
-                    <i className="bi bi-circle" /> Mark complete
-                  </>
-                )}
-              </button>
-            </div>
-
-            <button
-              className="cp-lbar-btn cp-lbar-btn--next"
-              disabled={!nextL}
-              onClick={() => nextL && selectLesson(nextL)}
-            >
-              Next <i className="bi bi-chevron-right" />
-            </button>
-          </div>
-
-          {/* Tabs */}
-          <div className="cp-tabs">
-            {["overview", "notes", "resources", "reviews"].map((t) => (
-              <button
-                key={t}
-                className={`cp-tab ${activeTab === t ? "cp-tab--on" : ""}`}
-                onClick={() => setActiveTab(t)}
-              >
-                {t.charAt(0).toUpperCase() + t.slice(1)}
-              </button>
-            ))}
-          </div>
-
-          <div className="cp-tab-body">
-            {activeTab === "overview" && (
-              <div className="cp-ov">
-                <h2 className="cp-ov-h">{info.title}</h2>
-                <div className="cp-ov-meta">
-                  <span>
-                    <i className="bi bi-person-fill" /> {info.instructor}
-                  </span>
-                  <span>
-                    <i className="bi bi-star-fill cp-star" /> {info.rating}
-                  </span>
-                  <span>
-                    <i className="bi bi-people-fill" />{" "}
-                    {info.students.toLocaleString("en-IN")} students
-                  </span>
-                  <span>
-                    <i className="bi bi-collection-play" /> {total} lessons
-                  </span>
-                  <span>
-                    <i className="bi bi-tag-fill" /> {info.category}
-                  </span>
-                </div>
-                <p className="cp-ov-desc">
-                  This comprehensive course covers every essential aspect of{" "}
-                  {info.title.toLowerCase()}. You'll learn through structured
-                  modules, real-world examples, and hands-on exercises that
-                  build your skills progressively from fundamentals to advanced
-                  techniques.
-                </p>
-                <h3 className="cp-ov-sub">What you'll learn</h3>
-                <div className="cp-learn-grid">
-                  {[
-                    "Core concepts and fundamentals",
-                    "Hands-on practical exercises",
-                    "Real-world case studies",
-                    "Industry best practices",
-                    "Advanced techniques & tools",
-                    "Career-ready applied skills",
-                  ].map((item) => (
-                    <div key={item} className="cp-learn-item">
-                      <i className="bi bi-check2-circle" /> {item}
+                  <div className="vp-wrap">
+                    <div className="vp-placeholder">
+                      <div className="vp-ph-body">
+                        <div className="vp-ph-icon">
+                          <i className="bi bi-play-circle" />
+                        </div>
+                        <p className="vp-ph-title">Select a lesson to begin</p>
+                      </div>
                     </div>
-                  ))}
-                </div>
+                  </div>
+                )}
               </div>
-            )}
 
-            {activeTab === "notes" && (
-              <div className="cp-notes">
-                <p className="cp-notes-label">
-                  Notes for: <em>{activeLesson.title}</em>
-                </p>
-                <textarea
-                  className="cp-notes-ta"
-                  placeholder="Write your notes here..."
-                />
-                <button className="cp-notes-save">
-                  <i className="bi bi-save" /> Save Notes
+              {/* Lesson nav */}
+              <div className="cp-lbar">
+                <button
+                  className="cp-lbar-btn"
+                  disabled={!prevL}
+                  onClick={() => prevL && selectLesson(prevL)}
+                >
+                  <i className="bi bi-chevron-left" /> Previous
+                </button>
+                <div className="cp-lbar-center">
+                  <span className="cp-lbar-name">{activeLesson?.title}</span>
+                  {activeLesson && (
+                    <button
+                      className={`cp-mark-btn ${activeLesson.completed ? "cp-mark-btn--done" : ""}`}
+                      onClick={() => markDone(activeLesson.id)}
+                    >
+                      {activeLesson.completed ? (
+                        <>
+                          <i className="bi bi-check-circle-fill" /> Completed
+                        </>
+                      ) : (
+                        <>
+                          <i className="bi bi-circle" /> Mark complete
+                        </>
+                      )}
+                    </button>
+                  )}
+                </div>
+                <button
+                  className="cp-lbar-btn cp-lbar-btn--next"
+                  disabled={!nextL}
+                  onClick={() => nextL && selectLesson(nextL)}
+                >
+                  Next <i className="bi bi-chevron-right" />
                 </button>
               </div>
-            )}
 
-            {activeTab === "resources" && (
-              <div className="cp-resources">
-                {[
-                  {
-                    icon: "bi-file-earmark-pdf-fill",
-                    c: "#ef4444",
-                    name: "Course Slides.pdf",
-                    btn: "Download",
-                  },
-                  {
-                    icon: "bi-file-earmark-code-fill",
-                    c: "#2563eb",
-                    name: "Starter Code.zip",
-                    btn: "Download",
-                  },
-                  {
-                    icon: "bi-link-45deg",
-                    c: "#059669",
-                    name: "Further Reading Docs",
-                    btn: "Open",
-                  },
-                ].map((r, i) => (
-                  <div key={i} className="cp-res-row">
-                    <i className={`bi ${r.icon}`} style={{ color: r.c }} />
-                    <span className="cp-res-name">{r.name}</span>
-                    <button className="cp-res-btn">{r.btn}</button>
-                  </div>
+              {/* Tabs */}
+              <div className="cp-tabs">
+                {["overview", "notes", "resources", "reviews"].map((t) => (
+                  <button
+                    key={t}
+                    className={`cp-tab ${activeTab === t ? "cp-tab--on" : ""}`}
+                    onClick={() => setActiveTab(t)}
+                  >
+                    {t.charAt(0).toUpperCase() + t.slice(1)}
+                  </button>
                 ))}
               </div>
-            )}
 
-            {activeTab === "reviews" && (
-              <div className="cp-reviews">
-                {[
-                  {
-                    n: "Priya S.",
-                    s: 5,
-                    t: "Excellent course! Very well structured with great practical examples.",
-                  },
-                  {
-                    n: "Arjun M.",
-                    s: 4,
-                    t: "Really enjoyed the case studies — they made complex topics easy.",
-                  },
-                  {
-                    n: "Neha R.",
-                    s: 5,
-                    t: "Best course on this topic. The instructor explains everything clearly.",
-                  },
-                ].map((r, i) => (
-                  <div key={i} className="cp-review">
-                    <div className="cp-rv-av">{r.n[0]}</div>
-                    <div className="cp-rv-body">
-                      <div className="cp-rv-name">{r.n}</div>
-                      <div className="cp-rv-stars">
-                        {"★".repeat(r.s)}
-                        {"☆".repeat(5 - r.s)}
+              <div className="cp-tab-body">
+                {/* Overview */}
+                {activeTab === "overview" && (
+                  <div className="cp-ov">
+                    <div className="cp-ov-header">
+                      <div className="cp-ov-thumb-wrap">
+                        {hasThumb ? (
+                          <img
+                            src={course.thumb}
+                            alt={course.title}
+                            className="cp-ov-thumb-img"
+                          />
+                        ) : (
+                          <div
+                            className="cp-ov-thumb-grad"
+                            style={{ background: courseGrad }}
+                          >
+                            <span className="cp-ov-thumb-initials">
+                              {getInitials(course.title)}
+                            </span>
+                          </div>
+                        )}
                       </div>
-                      <p className="cp-rv-text">{r.t}</p>
+                      <div className="cp-ov-header-info">
+                        <h2 className="cp-ov-h">{course.title}</h2>
+                        <div className="cp-ov-meta">
+                          {course.teacher && (
+                            <span>
+                              <i className="bi bi-person-fill" />{" "}
+                              {course.teacher}
+                            </span>
+                          )}
+                          {course.rating > 0 && (
+                            <span>
+                              <i className="bi bi-star-fill cp-star" />{" "}
+                              {course.rating}
+                            </span>
+                          )}
+                          {course.students > 0 && (
+                            <span>
+                              <i className="bi bi-people-fill" />{" "}
+                              {course.students.toLocaleString("en-IN")} students
+                            </span>
+                          )}
+                          <span>
+                            <i className="bi bi-collection-play" /> {total}{" "}
+                            lessons
+                          </span>
+                          {course.category && (
+                            <span>
+                              <i className="bi bi-tag-fill" /> {course.category}
+                            </span>
+                          )}
+                          {course.duration && (
+                            <span>
+                              <i className="bi bi-clock" /> {course.duration}
+                            </span>
+                          )}
+                        </div>
+                        {course.price > 0 && (
+                          <div className="cp-ov-price">
+                            ₹{course.price.toLocaleString("en-IN")}
+                          </div>
+                        )}
+                      </div>
                     </div>
+
+                    {course.description && (
+                      <div
+                        className="cp-ov-desc"
+                        dangerouslySetInnerHTML={{ __html: course.description }}
+                      />
+                    )}
+
+                    {(course.chapters || []).length > 0 && (
+                      <>
+                        <h3 className="cp-ov-sub">What you'll learn</h3>
+                        <div className="cp-learn-grid">
+                          {course.chapters.map((ch) => (
+                            <div key={ch.id} className="cp-learn-item">
+                              <i className="bi bi-check2-circle" /> {ch.title}
+                            </div>
+                          ))}
+                        </div>
+                      </>
+                    )}
                   </div>
-                ))}
+                )}
+
+                {/* Notes */}
+                {activeTab === "notes" && (
+                  <div className="cp-notes">
+                    <p className="cp-notes-label">
+                      Notes for: <em>{activeLesson?.title}</em>
+                    </p>
+                    <div className="cp-notes-rich-wrap">
+                      <div id="cp-notes-editor" className="cp-notes-quill" />
+                    </div>
+                    <button className="cp-notes-save">
+                      <i className="bi bi-save" /> Save Notes
+                    </button>
+                  </div>
+                )}
+
+                {/* Resources */}
+                {activeTab === "resources" && (
+                  <div className="cp-resources">
+                    {[
+                      {
+                        icon: "bi-file-earmark-pdf-fill",
+                        c: "#ef4444",
+                        name: "Course Slides.pdf",
+                        btn: "Download",
+                      },
+                      {
+                        icon: "bi-file-earmark-code-fill",
+                        c: "#2563eb",
+                        name: "Starter Code.zip",
+                        btn: "Download",
+                      },
+                      {
+                        icon: "bi-link-45deg",
+                        c: "#059669",
+                        name: "Further Reading Docs",
+                        btn: "Open",
+                      },
+                    ].map((r, i) => (
+                      <div key={i} className="cp-res-row">
+                        <i className={`bi ${r.icon}`} style={{ color: r.c }} />
+                        <span className="cp-res-name">{r.name}</span>
+                        <button className="cp-res-btn">{r.btn}</button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {/* Reviews */}
+                {activeTab === "reviews" && (
+                  <div className="cp-reviews">
+                    {course.students > 0 ? (
+                      [
+                        {
+                          n: "Priya S.",
+                          s: 5,
+                          t: "Excellent course! Very well structured with great examples.",
+                        },
+                        {
+                          n: "Arjun M.",
+                          s: 4,
+                          t: "Really enjoyed the case studies — complex topics made easy.",
+                        },
+                        {
+                          n: "Neha R.",
+                          s: 5,
+                          t: "Best course on this topic. The instructor explains clearly.",
+                        },
+                      ].map((r, i) => (
+                        <div key={i} className="cp-review">
+                          <div className="cp-rv-av">{r.n[0]}</div>
+                          <div className="cp-rv-body">
+                            <div className="cp-rv-name">{r.n}</div>
+                            <div className="cp-rv-stars">
+                              {"★".repeat(r.s)}
+                              {"☆".repeat(5 - r.s)}
+                            </div>
+                            <p className="cp-rv-text">{r.t}</p>
+                          </div>
+                        </div>
+                      ))
+                    ) : (
+                      <div className="cp-empty-reviews">
+                        <i className="bi bi-chat-square-text" />
+                        <p>No reviews yet — be the first to review!</p>
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
-            )}
-          </div>
+            </>
+          )}
         </div>
 
-        {/* ── Sidebar ── */}
+        {/* Sidebar */}
         {sidebarOpen && (
           <aside className="cp-sidebar">
             <div className="cp-sb-head">
@@ -807,77 +732,91 @@ export default function CoursePlayer() {
               <p className="cp-sb-sub">
                 {done}/{total} lessons completed
               </p>
-              <div className="cp-sb-prog-track">
-                <div className="cp-sb-prog-fill" style={{ width: `${pct}%` }} />
-              </div>
+              {total > 0 && (
+                <div className="cp-sb-prog-track">
+                  <div
+                    className="cp-sb-prog-fill"
+                    style={{ width: `${pct}%` }}
+                  />
+                </div>
+              )}
             </div>
 
             <div className="cp-sb-list">
-              {sections.map((sec) => (
-                <div key={sec.id} className="cp-section">
+              {total === 0 ? (
+                <div className="cp-sb-empty">
+                  <i className="bi bi-collection-play" />
+                  <p>No chapters added yet.</p>
                   <button
-                    className="cp-sec-hdr"
-                    onClick={() => toggleSec(sec.id)}
+                    onClick={() =>
+                      navigate(`/admin-dashboard/courses/${course.id}`)
+                    }
                   >
-                    <div className="cp-sec-hdr-l">
-                      <i
-                        className={`bi ${sec.expanded ? "bi-chevron-down" : "bi-chevron-right"} cp-sec-arrow`}
-                      />
-                      <span className="cp-sec-title">{sec.title}</span>
-                    </div>
-                    <span className="cp-sec-count">
-                      {sec.lessons.filter((l) => l.completed).length}/
-                      {sec.lessons.length}
-                    </span>
+                    <i className="bi bi-pencil" /> Edit Course
                   </button>
-
-                  {sec.expanded && (
-                    <div className="cp-lessons">
-                      {sec.lessons.map((lesson) => (
-                        <button
-                          key={lesson.id}
-                          className={[
-                            "cp-lesson",
-                            activeLesson.id === lesson.id
-                              ? "cp-lesson--active"
-                              : "",
-                            lesson.completed ? "cp-lesson--done" : "",
-                            lesson.type !== "video" ? "cp-lesson--nolink" : "",
-                          ]
-                            .filter(Boolean)
-                            .join(" ")}
-                          onClick={() => selectLesson(lesson)}
-                        >
-                          <span className="cp-lesson-ic">
-                            {lesson.completed ? (
-                              <i className="bi bi-check-circle-fill cp-ic-done" />
-                            ) : (
-                              <i
-                                className={`bi ${typeIcon(lesson.type)} cp-ic-type`}
-                              />
-                            )}
-                          </span>
-                          <span className="cp-lesson-info">
-                            <span className="cp-lesson-title">
-                              {lesson.title}
-                            </span>
-                            <span className="cp-lesson-meta">
-                              {lesson.type !== "video" && (
-                                <span
-                                  className={`cp-badge cp-badge--${lesson.type}`}
-                                >
-                                  {lesson.type}
-                                </span>
-                              )}
-                              {lesson.duration}
-                            </span>
-                          </span>
-                        </button>
-                      ))}
-                    </div>
-                  )}
                 </div>
-              ))}
+              ) : (
+                sections.map((sec) => (
+                  <div key={sec.id} className="cp-section">
+                    <button
+                      className="cp-sec-hdr"
+                      onClick={() => toggleSec(sec.id)}
+                    >
+                      <div className="cp-sec-hdr-l">
+                        <i
+                          className={`bi ${sec.expanded ? "bi-chevron-down" : "bi-chevron-right"} cp-sec-arrow`}
+                        />
+                        <span className="cp-sec-title">{sec.title}</span>
+                      </div>
+                      <span className="cp-sec-count">
+                        {sec.lessons.filter((l) => l.completed).length}/
+                        {sec.lessons.length}
+                      </span>
+                    </button>
+
+                    {sec.expanded && (
+                      <div className="cp-lessons">
+                        {sec.lessons.map((lesson) => (
+                          <button
+                            key={lesson.id}
+                            className={[
+                              "cp-lesson",
+                              activeLesson?.id === lesson.id
+                                ? "cp-lesson--active"
+                                : "",
+                              lesson.completed ? "cp-lesson--done" : "",
+                            ]
+                              .filter(Boolean)
+                              .join(" ")}
+                            onClick={() => selectLesson(lesson)}
+                          >
+                            <span className="cp-lesson-ic">
+                              {lesson.completed ? (
+                                <i className="bi bi-check-circle-fill cp-ic-done" />
+                              ) : (
+                                <i className="bi bi-play-circle-fill cp-ic-type" />
+                              )}
+                            </span>
+                            <span className="cp-lesson-info">
+                              <span className="cp-lesson-title">
+                                {lesson.title}
+                              </span>
+                              <span className="cp-lesson-meta">
+                                {lesson.isFree && (
+                                  <span className="cp-badge cp-badge--free">
+                                    Free
+                                  </span>
+                                )}
+                                {lesson.duration}
+                              </span>
+                            </span>
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                ))
+              )}
             </div>
           </aside>
         )}
