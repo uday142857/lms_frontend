@@ -1,12 +1,16 @@
 import React from "react";
+import { currentUser, getFirstName } from "../../data/UserStore"; // adjust path to your project
 import "./MidSection.css";
 
 function MidSection() {
+  const firstName = getFirstName();
+
   return (
     <section className="mid-wrapper">
       <div className="mid-top">
         <div className="mid-greet">
-          <h2>Welcome back, Uday! 👋</h2>
+          {/* ★ Name comes from userStore — update once, reflects everywhere */}
+          <h2>Welcome back, {firstName}! 👋</h2>
           <p>Continue your learning journey and achieve your goals</p>
         </div>
         {/* <div className="mid-actions">
@@ -28,7 +32,10 @@ function MidSection() {
             </div>
             <div className="ac-info">
               <p className="ac-label">Tests Assigned</p>
-              <span className="ac-value ac-blue">49</span>
+              {/* ★ Live data from userStore */}
+              <span className="ac-value ac-blue">
+                {currentUser.testsAssigned}
+              </span>
             </div>
           </div>
 
@@ -38,7 +45,9 @@ function MidSection() {
             </div>
             <div className="ac-info">
               <p className="ac-label">Tests Completed</p>
-              <span className="ac-value ac-green">24</span>
+              <span className="ac-value ac-green">
+                {currentUser.testsCompleted}
+              </span>
             </div>
           </div>
 
@@ -48,7 +57,9 @@ function MidSection() {
             </div>
             <div className="ac-info">
               <p className="ac-label">Questions Attempted</p>
-              <span className="ac-value ac-purple">634</span>
+              <span className="ac-value ac-purple">
+                {currentUser.questionsAttempted}
+              </span>
             </div>
           </div>
 
@@ -58,7 +69,9 @@ function MidSection() {
             </div>
             <div className="ac-info">
               <p className="ac-label">Total Time Spent</p>
-              <span className="ac-value ac-orange">518 mins</span>
+              <span className="ac-value ac-orange">
+                {currentUser.totalTimeMins} mins
+              </span>
             </div>
           </div>
         </div>

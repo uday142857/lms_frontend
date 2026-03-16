@@ -40,11 +40,14 @@ function buildSections(course) {
 }
 
 const flat = (secs) => secs.flatMap((s) => s.lessons);
-const done = (secs) => flat(secs).filter((l) => l.completed).length;
+const countDone = (secs) => flat(secs).filter((l) => l.completed).length;
 const fmt = (s) =>
   !s || isNaN(s)
     ? "0:00"
     : `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, "0")}`;
+
+// detect mobile once (avoids SSR issues)
+const isMobile = () => window.innerWidth <= 768;
 
 // ── Video Player ──────────────────────────────────────────────────────────────
 function VideoPlayer({ lesson, onComplete }) {
@@ -177,14 +180,11 @@ function VideoPlayer({ lesson, onComplete }) {
         </div>
       )}
 
-      {/* Centre flash */}
       <div className={`vp-flash${!playing ? " vp-flash--on" : ""}`}>
         <i className={`bi ${playing ? "bi-pause-fill" : "bi-play-fill"}`} />
       </div>
 
-      {/* Controls */}
       <div className="vp-controls" onClick={(e) => e.stopPropagation()}>
-        {/* Seek */}
         <div className="vp-seek" onClick={seek}>
           <div className="vp-seek-track">
             <div className="vp-seek-buf" style={{ width: `${buf}%` }} />
@@ -193,7 +193,6 @@ function VideoPlayer({ lesson, onComplete }) {
             </div>
           </div>
         </div>
-        {/* Row */}
         <div className="vp-row">
           <div className="vp-row-l">
             <button className="vp-btn" onClick={togglePlay}>
@@ -271,29 +270,36 @@ export default function UserCoursePlayer() {
   const [activeLesson, setActiveLesson] = useState(
     () => flat(buildSections(course))[0] || null,
   );
-  const [sidebarOpen, setSidebarOpen] = useState(false); // closed by default on mobile
+
+  // ★ KEY FIX: on mobile start closed, on desktop start open
+  const [sidebarOpen, setSidebarOpen] = useState(() => !isMobile());
+
   const [activeTab, setActiveTab] = useState("overview");
   const [enrolled, setEnrolled] = useState(false);
   const [noteText, setNoteText] = useState("");
 
-  // On desktop open sidebar by default
-  useEffect(() => {
-    const mq = window.matchMedia("(min-width: 769px)");
-    setSidebarOpen(mq.matches);
-    const handler = (e) => setSidebarOpen(e.matches);
-    mq.addEventListener("change", handler);
-    return () => mq.removeEventListener("change", handler);
-  }, []);
-
+  // Re-init when courseId changes
   useEffect(() => {
     const secs = buildSections(course);
     setSections(secs);
     setActiveLesson(flat(secs)[0] || null);
     setActiveTab("overview");
+    // Reset sidebar state for the new course
+    setSidebarOpen(!isMobile());
   }, [courseId]);
 
+  // Handle window resize — open sidebar if resizing to desktop
+  useEffect(() => {
+    const handler = () => {
+      if (!isMobile()) setSidebarOpen(true);
+      else setSidebarOpen(false);
+    };
+    window.addEventListener("resize", handler);
+    return () => window.removeEventListener("resize", handler);
+  }, []);
+
   const allLessons = useMemo(() => flat(sections), [sections]);
-  const doneCount = useMemo(() => done(sections), [sections]);
+  const doneCount = useMemo(() => countDone(sections), [sections]);
   const total = allLessons.length;
   const pct = total > 0 ? Math.round((doneCount / total) * 100) : 0;
   const curIdx = activeLesson
@@ -304,8 +310,8 @@ export default function UserCoursePlayer() {
 
   const selectLesson = (l) => {
     setActiveLesson(l);
-    // On mobile close sidebar after selecting
-    if (window.innerWidth < 769) setSidebarOpen(false);
+    // On mobile, close sidebar after selecting a lesson
+    if (isMobile()) setSidebarOpen(false);
   };
 
   const markDone = (lessonId) => {
@@ -329,22 +335,25 @@ export default function UserCoursePlayer() {
 
   const grad = course ? getGradient(course.category) : "#059669";
 
+  // ── Course not found ──
   if (!course) {
     return (
       <div className="ucp-root">
         <header className="ucp-nav">
-          <button className="ucp-back" onClick={() => navigate(-1)}>
-            <i className="bi bi-arrow-left" />
-          </button>
-          <div className="ucp-brand">
-            <span className="ucp-brand-logo">HT</span>
-            <span className="ucp-brand-name">HorizonTrax</span>
+          <div className="ucp-nav-l">
+            <button className="ucp-back" onClick={() => navigate(-1)}>
+              <i className="bi bi-arrow-left" />
+            </button>
+            <div className="ucp-brand">
+              <span className="ucp-brand-logo">HT</span>
+              <span className="ucp-brand-name">HorizonTrax LMS</span>
+            </div>
           </div>
         </header>
         <div className="ucp-notfound">
           <i className="bi bi-exclamation-circle" />
           <h2>Course not found</h2>
-          <p>This course doesn't exist or has been removed.</p>
+          <p>This course doesn't exist or was removed.</p>
           <button onClick={() => navigate(-1)}>
             <i className="bi bi-arrow-left" /> Go Back
           </button>
@@ -355,7 +364,7 @@ export default function UserCoursePlayer() {
 
   return (
     <div className="ucp-root">
-      {/* ══ NAV ══════════════════════════════════════════════ */}
+      {/* ══ NAV ══════════════════════════════════════ */}
       <header className="ucp-nav">
         <div className="ucp-nav-l">
           <button className="ucp-back" onClick={() => navigate(-1)}>
@@ -380,24 +389,24 @@ export default function UserCoursePlayer() {
               <span className="ucp-nav-pct">{pct}% complete</span>
             </div>
           )}
-          <button
-            className={`ucp-content-btn${sidebarOpen ? " active" : ""}`}
-            onClick={() => setSidebarOpen((p) => !p)}
-          >
-            <i className="bi bi-layout-sidebar-reverse" />
-            <span className="ucp-content-btn-label"> Course content</span>
-          </button>
         </div>
       </header>
 
-      {/* ══ BODY ═════════════════════════════════════════════ */}
+      {/* ══ BODY ══════════════════════════════════════ */}
       <div className="ucp-body">
-        {/* Mobile scrim — tap to close sidebar */}
-        {sidebarOpen && (
+        {/*
+          ★ SCRIM — only renders on mobile when sidebar is open.
+          z-index 148 = below sidebar (150) but above main content.
+          Clicking it closes the sidebar.
+          It does NOT cover the lbar because lbar is inside ucp-main
+          which is below z-index 148 in normal flow — scrim covers only
+          the area behind the sidebar drawer.
+        */}
+        {sidebarOpen && isMobile() && (
           <div className="ucp-scrim" onClick={() => setSidebarOpen(false)} />
         )}
 
-        {/* ── MAIN COLUMN ── */}
+        {/* ── MAIN ─────────────────────────────────── */}
         <div className="ucp-main">
           {/* VIDEO */}
           <div className="ucp-video-area">
@@ -413,42 +422,53 @@ export default function UserCoursePlayer() {
             />
           </div>
 
-          {/* LESSON NAV BAR */}
-          {total > 0 && (
-            <div className="ucp-lbar">
-              <button
-                className="ucp-lbar-btn"
-                disabled={!prevL}
-                onClick={() => prevL && selectLesson(prevL)}
-              >
-                <i className="bi bi-chevron-left" /> <span>Previous</span>
-              </button>
-              <div className="ucp-lbar-mid">
-                <span className="ucp-lbar-lesson">{activeLesson?.title}</span>
-                {activeLesson && (
-                  <button
-                    className={`ucp-mark-btn${activeLesson.completed ? " done" : ""}`}
-                    onClick={() => markDone(activeLesson.id)}
-                    disabled={activeLesson.completed}
-                  >
-                    <i
-                      className={`bi ${activeLesson.completed ? "bi-check-circle-fill" : "bi-circle"}`}
-                    />
-                    <span>
-                      {activeLesson.completed ? "Completed" : "Mark complete"}
-                    </span>
-                  </button>
-                )}
-              </div>
-              <button
-                className="ucp-lbar-btn ucp-lbar-next"
-                disabled={!nextL}
-                onClick={() => nextL && selectLesson(nextL)}
-              >
-                <span>Next</span> <i className="bi bi-chevron-right" />
-              </button>
+          {/* LBAR — Prev | Centre | Next | [Course content btn] */}
+          <div className="ucp-lbar">
+            <button
+              className="ucp-lbar-btn"
+              disabled={!prevL}
+              onClick={() => prevL && selectLesson(prevL)}
+            >
+              <i className="bi bi-chevron-left" />
+              <span className="ucp-lbar-label">Previous</span>
+            </button>
+
+            <div className="ucp-lbar-mid">
+              <span className="ucp-lbar-lesson">{activeLesson?.title}</span>
+              {activeLesson && (
+                <button
+                  className={`ucp-mark-btn${activeLesson.completed ? " done" : ""}`}
+                  onClick={() => markDone(activeLesson.id)}
+                  disabled={activeLesson.completed}
+                >
+                  <i
+                    className={`bi ${activeLesson.completed ? "bi-check-circle-fill" : "bi-circle"}`}
+                  />
+                  <span className="ucp-mark-label">
+                    {activeLesson.completed ? "Completed" : "Mark complete"}
+                  </span>
+                </button>
+              )}
             </div>
-          )}
+
+            <button
+              className="ucp-lbar-btn ucp-lbar-next"
+              disabled={!nextL}
+              onClick={() => nextL && selectLesson(nextL)}
+            >
+              <span className="ucp-lbar-label">Next</span>
+              <i className="bi bi-chevron-right" />
+            </button>
+
+            {/* ★ Course content toggle — always visible, toggles sidebar on ALL screen sizes */}
+            <button
+              className={`ucp-content-btn${sidebarOpen ? " active" : ""}`}
+              onClick={() => setSidebarOpen((p) => !p)}
+            >
+              <i className="bi bi-layout-sidebar-reverse" />
+              <span className="ucp-content-btn-text">Course content</span>
+            </button>
+          </div>
 
           {/* TABS */}
           <div className="ucp-tabs">
@@ -463,7 +483,7 @@ export default function UserCoursePlayer() {
             ))}
           </div>
 
-          {/* TAB CONTENT */}
+          {/* TAB BODY */}
           <div className="ucp-tab-body">
             {/* OVERVIEW */}
             {activeTab === "overview" && (
@@ -531,7 +551,6 @@ export default function UserCoursePlayer() {
                   </div>
                 </div>
 
-                {/* Progress */}
                 {total > 0 && (
                   <div className="ucp-prog-card">
                     <div className="ucp-prog-top">
@@ -550,7 +569,6 @@ export default function UserCoursePlayer() {
                   </div>
                 )}
 
-                {/* Description */}
                 {course.description && (
                   <div className="ucp-ov-desc">
                     <h3>About this course</h3>
@@ -558,7 +576,6 @@ export default function UserCoursePlayer() {
                   </div>
                 )}
 
-                {/* What you'll learn */}
                 {course.chapters?.length > 0 && (
                   <div className="ucp-learn">
                     <h3>What you'll learn</h3>
@@ -691,7 +708,6 @@ export default function UserCoursePlayer() {
                     ))}
                   </div>
                 </div>
-
                 {[
                   {
                     n: "Priya S.",
@@ -733,7 +749,6 @@ export default function UserCoursePlayer() {
                     </div>
                   </div>
                 ))}
-
                 <div className="ucp-write-review">
                   <h4>Write a Review</h4>
                   <div className="star-pick">
@@ -749,7 +764,7 @@ export default function UserCoursePlayer() {
           </div>
         </div>
 
-        {/* ── SIDEBAR ── */}
+        {/* ── SIDEBAR ──────────────────────────────── */}
         <aside className={`ucp-sidebar${sidebarOpen ? " open" : ""}`}>
           <div className="ucp-sb-head">
             <div className="ucp-sb-head-row">

@@ -342,7 +342,7 @@ function Header({ sidebarOpen, onToggleSidebar, onEnterAdmin }) {
                   </div>
                   <div className="pd-divider" />
                   <NavLink
-                    to="/profile"
+                    to="/userprofile"
                     className="pd-item"
                     onClick={() => setProfileOpen(false)}
                   >
